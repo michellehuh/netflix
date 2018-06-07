@@ -29,6 +29,16 @@ Create a tunnel
 ```
 ssh -Y your_cs_id@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
 ```
+Use sqlplus
+```
+sqlplus ora_{cs_id}/a{student_number}@ssh
+```
+### SQL Developer
+[Alternative to sqlplus, SQL developer can be used.](http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index.html)
+
+Load TNS file that was created from the above.
+Use ora_{cs_id}/a{student_number} as id/pw
+
 ## Spring Datasource Setup
 src/main/resources/application.properties
 
