@@ -5,7 +5,7 @@ CS304 project setup guide
 ### Oracle client installation for MAC OS
 [Go to Oracle's homepage for files and instructions.](http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html)
 Every step must be followed but sqlplus is optional.
-### Connecting to the UBC Oracle Database via an SSH Tunnel
+### Connecting to UBC Oracle Database via an SSH Tunnel
 At terminal
 ```
 cd ~/instantclient_12_2/network/admin/
