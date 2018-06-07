@@ -1,4 +1,4 @@
-package com.spring;
+package com.cs304.netflix;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

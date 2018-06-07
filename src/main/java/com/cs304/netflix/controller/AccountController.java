@@ -1,7 +1,7 @@
-package com.spring.controller;
+package com.cs304.netflix.controller;
 
-import com.spring.entity.Account;
-import com.spring.service.AccountServiceI;
+import com.cs304.netflix.entity.Account;
+import com.cs304.netflix.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private AccountServiceI service;
+    private AccountService service;
 
     public static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 

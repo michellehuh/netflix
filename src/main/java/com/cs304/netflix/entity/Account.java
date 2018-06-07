@@ -1,4 +1,4 @@
-package com.spring.entity;
+package com.cs304.netflix.entity;
 
 import java.sql.Date;
 
