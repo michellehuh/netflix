@@ -7,6 +7,7 @@ CS304 project setup guide
 Every step must be followed but sqlplus is optional.
 ### Connecting to UBC Oracle Database via an SSH Tunnel
 It's not possible to directly connect to the dbhost.ugrad.cs.ubc.ca so you'd have to create a tunnel first.
+
 At terminal
 ```
 cd ~/instantclient_12_2/network/admin/
