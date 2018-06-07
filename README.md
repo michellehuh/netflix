@@ -27,7 +27,7 @@ ssh =
 ```
 Create a tunnel 
 ```
-ssh -Y your_cs_id@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
+ssh -Y {cs_id}@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
 ```
 Use sqlplus
 ```
