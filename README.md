@@ -29,9 +29,13 @@ Create a tunnel
 ```
 ssh -Y {cs_id}@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
 ```
-Use sqlplus
+Use sqlplus with oraname.tns
 ```
 sqlplus ora_{cs_id}/a{student_number}@ssh
+```
+Usle sqlplus without oraname.tns
+```
+sqlplus ora_{cs_id}/a{student_number}@localhost:1522/ug
 ```
 ### SQL Developer
 [Alternative to sqlplus, SQL developer can be used.](http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index.html, "Sql Developer")
