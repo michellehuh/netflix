@@ -36,3 +36,9 @@ src/main/resources/application.properties
 spring.datasource.username=ora_{cs_id}
 spring.datasource.password=a{student_number}
 ```
+
+## Dependencies
+Build gradle to add dependencies to the classpath
+```
+gradle build
+```
