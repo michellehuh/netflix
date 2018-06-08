@@ -2,6 +2,7 @@ package com.cs304.netflix.entity;
 
 import java.sql.Date;
 
+
 public class Account {
 
     int id;
