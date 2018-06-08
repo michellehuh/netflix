@@ -1,29 +1,30 @@
-package com.cs304.netflix.entity;
+package com.cs304.netflix.model;
 
-import java.sql.Date;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 public class Account {
 
-    int id;
+    BigDecimal id;
     String name;
     Date dob;
 
-    public Account(int id) {
-        this.id = id;
+    public Account() {
     }
 
-    public Account(int id, String name, Date dob) {
+    public Account(BigDecimal id, String name, Timestamp dob) {
         this.id = id;
         this.name = name;
-        this.dob = dob;
+        this.dob = new Date(dob.getTime());
     }
 
-    public int getId() {
+    public BigDecimal getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigDecimal id) {
         this.id = id;
     }
 
@@ -39,7 +40,7 @@ public class Account {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(Timestamp dob) {
         this.dob = dob;
     }
 }

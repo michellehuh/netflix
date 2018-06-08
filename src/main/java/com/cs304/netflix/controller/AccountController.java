@@ -1,7 +1,8 @@
 package com.cs304.netflix.controller;
 
-import com.cs304.netflix.entity.Account;
-import com.cs304.netflix.service.AccountService;
+import com.cs304.netflix.mapper.AccountMapper;
+import com.cs304.netflix.model.Account;
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@MapperScan("com.cs304.netflix.mapper")
 public class AccountController {
 
-    @Autowired
-    private AccountService service;
+    @Autowired(required=false)
+    AccountMapper mapper;
 
     public static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -26,19 +28,15 @@ public class AccountController {
         return "hello " + name + "!"; // hello michelle
     }
 
-
     @GetMapping("/account")
     public ResponseEntity<List<Account>> getAllAccounts() {
-        List<Account> accounts = service.getAllAccounts();
+        List<Account> accounts = mapper.getAllAccounts();
         return new ResponseEntity<List<Account>>(accounts, HttpStatus.OK);
     }
 
     @GetMapping("/account/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable Integer id) {
-        Account account = service.getAccountById(id);
+        Account account = mapper.getById(id);
         return new ResponseEntity<Account>(account, HttpStatus.OK);
     }
-
-
-
 }
