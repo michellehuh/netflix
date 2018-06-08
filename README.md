@@ -57,7 +57,7 @@ Build gradle to add dependencies to the classpath
 gradle build
 ```
 ## Environment
-JAVA 1.8
-Springboot 2.0.2.RELEASE
-Mybatis 1.3.2
-Oracle 11g
+  JAVA 1.8
+  Springboot 2.0.2.RELEASE
+  Mybatis 1.3.2
+  Oracle 11g
