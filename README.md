@@ -60,4 +60,4 @@ gradle build
   JAVA 1.8, 
   Springboot 2.0.2.RELEASE, 
   Mybatis 1.3.2, 
-  Oracle 11g, 
+  Oracle 11g
