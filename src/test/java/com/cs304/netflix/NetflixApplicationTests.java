@@ -1,4 +1,4 @@
-package com.spring;
+package com.cs304.netflix;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
