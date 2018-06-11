@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @MapperScan("com.cs304.netflix.mapper")
 public class AdminController {
@@ -22,23 +20,24 @@ public class AdminController {
 
     public static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-    @GetMapping("/admin")
-    public ResponseEntity<List<Admin>> getAllAccounts() {
-        List<Admin> admin = mapper.getAll();
-        return new ResponseEntity<List<Admin>>(admin, HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/{id}")
-    public ResponseEntity<Admin> getById(@PathVariable Integer id) {
-        Admin admin = mapper.getById(id);
-        return new ResponseEntity<Admin>(admin, HttpStatus.OK);
-    }
-
     @PostMapping("/admin")
     public ResponseEntity<Admin> create(@RequestBody Admin admin) {
         // {"id":67453069,"planId":1,"paymentId":0,"email":"michelle@alumni.ubc.ca","password":"qwer"}
         mapper.add(admin);
         return new ResponseEntity<Admin>(admin, HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/login")
+    public ResponseEntity<Admin> login(@RequestBody Admin admin) {
+        // {"email":"joon.hur@alumni.ubc.ca","password":"qwer"}
+        return new ResponseEntity<Admin>(mapper.login(admin), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/{email}")
+    public ResponseEntity<Integer> getById(@PathVariable String email) {
+        // url = localhost:8080/admin/joon.hur@alumni.ubc.ca
+        int count = mapper.countByEmail(email);
+        return new ResponseEntity<Integer>(count, HttpStatus.OK);
     }
 
     @DeleteMapping("/admin")

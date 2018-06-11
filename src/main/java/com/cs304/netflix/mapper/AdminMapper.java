@@ -22,4 +22,10 @@ public interface AdminMapper {
 
     @Update("UPDATE Admin SET email=#{email}, password=#{password}, planId=#{planId} paymentId=#{paymentId} WHERE id=#{id}")
     public void update(Admin admin);
+
+    @Select("SELECT * FROM Admin WHERE email=#{email} and password=#{password}")
+    Admin login(Admin admin);
+
+    @Select("SELECT count(*) FROM Admin WHERE email=#{email}")
+    int countByEmail(String email);
 }
