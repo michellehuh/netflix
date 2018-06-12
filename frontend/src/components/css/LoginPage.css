@@ -1,0 +1,15 @@
+.LoginPageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12%;
+}
+
+.LoginFormContainer {
+  width: 300px;
+}
+
+.PlanChooserContainer {
+  height: 23%;
+}
