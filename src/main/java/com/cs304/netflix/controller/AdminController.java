@@ -2,9 +2,8 @@ package com.cs304.netflix.controller;
 
 
 import com.cs304.netflix.mapper.AdminMapper;
-import com.cs304.netflix.mapper.AdminMapperTest;
 import com.cs304.netflix.model.Admin;
-import com.cs304.netflix.model.PaymentInfo;
+import com.cs304.netflix.model.Response;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +29,9 @@ public class AdminController {
     }
 
     @PostMapping("/admin/login")
-    public ResponseEntity<Admin> login(@RequestBody Admin admin) {
+    public ResponseEntity<Response> login(@RequestBody Admin admin) {
         // {"email":"joon.hur@alumni.ubc.ca","password":"qwer"}
-        return new ResponseEntity<Admin>(mapper.login(admin), HttpStatus.OK);
+        return new ResponseEntity<Response>(new Response(mapper.login(admin)), HttpStatus.OK);
     }
 
     @GetMapping("/admin/{email}")
