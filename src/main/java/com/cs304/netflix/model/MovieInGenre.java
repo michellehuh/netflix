@@ -3,7 +3,7 @@ package com.cs304.netflix.model;
 import java.math.BigDecimal;
 
 public class MovieInGenre {
-   BigDecimal id, duration, releaseYear;
+    BigDecimal id, duration, releaseYear;
     String genreName, movieTitle, ageRestriction;
 
     public MovieInGenre(){}
