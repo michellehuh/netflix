@@ -3,12 +3,12 @@ package com.cs304.netflix.model;
 import java.math.BigDecimal;
 
 public class PaymentInfo {
-    BigDecimal id, cardNo, expMonth, expYear;
-    String cardName, billingAddress;
+    BigDecimal id, expMonth, expYear;
+    String cardName, billingAddress, cardNo;
 
     public PaymentInfo(){}
 
-    public PaymentInfo(BigDecimal id, String cardName, BigDecimal cardNo, BigDecimal expMonth, BigDecimal expYear, String billingAddress){
+    public PaymentInfo(BigDecimal id, String cardName, String cardNo, BigDecimal expMonth, BigDecimal expYear, String billingAddress){
         this.id = id;
         this.cardName = cardName;
         this.cardNo = cardNo;
@@ -33,11 +33,11 @@ public class PaymentInfo {
         this.cardName = cardName;
     }
 
-    public BigDecimal getCardNo() {
+    public String getCardNo() {
         return cardNo;
     }
 
-    public void setCardNo(BigDecimal cardNo) {
+    public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
     }
 
