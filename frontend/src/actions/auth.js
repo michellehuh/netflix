@@ -17,6 +17,7 @@ export const login = credentials => dispatch => {
     body: JSON.stringify(credentials)
   })
     .then(res => {
+      console.log(res);
       if (res.exists) {
         dispatch(userLoginSuccess(res.user));
       }
