@@ -2,7 +2,9 @@ package com.cs304.netflix.controller;
 
 
 import com.cs304.netflix.mapper.AdminMapper;
+import com.cs304.netflix.mapper.AdminMapperTest;
 import com.cs304.netflix.model.Admin;
+import com.cs304.netflix.model.PaymentInfo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,4 +46,9 @@ public class AdminController {
     public ResponseEntity<Boolean> delete(@RequestBody Integer id) {
         return new ResponseEntity<Boolean>(mapper.delete(id), HttpStatus.OK);
     }
+
+//    @PostMapping("/admin/payment")
+//    public ResponseEntity<PaymentInfo> getPayment(@RequestBody Admin admin){
+//        return new ResponseEntity<PaymentInfo>(mapper.getPaymentInfo(admin), HttpStatus.OK);
+//    }
 }
