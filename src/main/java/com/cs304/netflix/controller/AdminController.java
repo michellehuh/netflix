@@ -23,10 +23,11 @@ public class AdminController {
     public static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping("/admin")
-    public ResponseEntity<Admin> create(@RequestBody Admin admin) {
-        // {"id":67453069,"planId":1,"paymentId":0,"email":"michelle@alumni.ubc.ca","password":"qwer"}
+    public ResponseEntity<Response> create(@RequestBody Admin admin) {
+        // {"planId":null,"paymentId":null,"email":"michelle@alumni.ubc.ca","password":"qwer"}
+        admin.generateAndSetId();
         mapper.add(admin);
-        return new ResponseEntity<Admin>(admin, HttpStatus.OK);
+        return new ResponseEntity<Response>(new Response(admin.getId()), HttpStatus.OK);
     }
 
     @PostMapping("/admin/login")
@@ -47,8 +48,10 @@ public class AdminController {
         return new ResponseEntity<Boolean>(mapper.delete(id), HttpStatus.OK);
     }
 
-//    @PostMapping("/admin/payment")
-//    public ResponseEntity<PaymentInfo> getPayment(@RequestBody Admin admin){
-//        return new ResponseEntity<PaymentInfo>(mapper.getPaymentInfo(admin), HttpStatus.OK);
-//    }
+    // request: planId, id
+    @PostMapping("/admin/plan")
+    public ResponseEntity<Response> updatePlan(@RequestBody Admin admin) {
+        mapper.updatePlan(admin);
+        return new ResponseEntity<Response>(new Response(admin), HttpStatus.OK);
+    }
 }

@@ -28,4 +28,7 @@ public interface AdminMapper {
 
     @Select("SELECT count(*) FROM Admin WHERE email=#{email}")
     int countByEmail(String email);
+
+    @Update("UPDATE Admin SET planId=#{planId} WHERE id=#{id}")
+    void updatePlan(Admin admin);
 }

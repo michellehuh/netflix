@@ -1,16 +1,18 @@
 package com.cs304.netflix.model;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Admin {
-    BigDecimal id, planId, paymentId;
+    String id, paymentId;
+    BigDecimal planId;
     String email;
     String password;
 
     public Admin(){
     }
 
-    public Admin(BigDecimal id, String email, String password, BigDecimal planId, BigDecimal paymentId){
+    public Admin(String id, String email, String password, BigDecimal planId, String paymentId){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -18,11 +20,11 @@ public class Admin {
         this.paymentId = paymentId;
     }
 
-    public BigDecimal getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,11 +52,14 @@ public class Admin {
         this.planId = planId;
     }
 
-    public BigDecimal getPaymentId() {
+    public String getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(BigDecimal paymentId){
+    public void setPaymentId(String paymentId){
         this.paymentId = paymentId;
     }
+
+    public void generateAndSetId() { this.id = UUID.randomUUID().toString(); }
+
 }
