@@ -26,6 +26,7 @@ public class AdminController {
     public ResponseEntity<Response> create(@RequestBody Admin admin) {
         // {"planId":null,"paymentId":null,"email":"michelle@alumni.ubc.ca","password":"qwer"}
         admin.generateAndSetId();
+        logger.info(admin.getId() + admin.getEmail() + admin.getPassword());
         mapper.add(admin);
         return new ResponseEntity<Response>(new Response(admin.getId()), HttpStatus.OK);
     }

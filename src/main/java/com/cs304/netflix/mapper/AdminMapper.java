@@ -14,7 +14,7 @@ public interface AdminMapper {
     @Select("SELECT * FROM Admin WHERE id = #{id}")
     Admin getById(int id);
 
-    @Insert("INSERT INTO Admin (id, email, password, planId, paymentId) values (#{id}, #{email}, #{password}, #{planId}, #{paymentId})")
+    @Insert("INSERT INTO Admin (id, email, password) values (#{id}, #{email}, #{password})")
     boolean add(Admin admin);
 
     @Delete("DELETE FROM Admin WHERE id=#{id}")
