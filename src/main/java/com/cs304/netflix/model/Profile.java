@@ -8,24 +8,6 @@ public class Profile {
 
     public Profile() {}
 
-    public Profile(String adminId, String name) {
-        this.name = name;
-        this.adminId = adminId;
-    }
-
-    public Profile(String name, String adminId, Integer age){
-        this.name = name;
-        this.adminId = adminId;
-        this.age = BigDecimal.valueOf(age);
-    }
-
-
-    public Profile(String name, String adminId, BigDecimal age){
-        this.name = name;
-        this.adminId = adminId;
-        this.age = age;
-    }
-
     public String getName() {
         return name;
     }
