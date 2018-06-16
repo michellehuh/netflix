@@ -7,6 +7,7 @@ public class ProfileAndWatchTime {
     String adminId;
     BigDecimal age;
     BigDecimal watchTime;
+    BigDecimal profileId;
 
     public ProfileAndWatchTime(String name, String adminId, BigDecimal age, BigDecimal watchTime){
         this.name = name;
@@ -45,5 +46,13 @@ public class ProfileAndWatchTime {
 
     public void setWatchTime(BigDecimal watchTime) {
         this.watchTime = watchTime;
+    }
+
+    public BigDecimal getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(BigDecimal profileId) {
+        this.profileId = profileId;
     }
 }

@@ -24,7 +24,7 @@ public interface ProfileMovieMapper {
             "                                  \tAND M3.AGERESTRICTION = A2.NAME\n" +
             "                                  \tAND A2.MINAGE <= #{age} " +
             "                                  \tAND P2.ADMINID = #{adminId}\n" +
-            "                                  \tAND P2.NAME = #{name}\n" +
+            "                                  \tAND P2.ID = #{id}\n" +
             "GROUP BY MOVIEID))\n")
     List<Movie> getProfileFavoriteMovies(Profile profile);
 
@@ -34,7 +34,7 @@ public interface ProfileMovieMapper {
             " \t, movie m" +
             " \t, agerestriction a\n" +
             "WHERE p.adminid = #{adminId}\n" +
-            "  and p.name = #{name}\n" +
+            "  and p.id = #{id}\n" +
             "  and m.agerestriction = a.name\n" +
             "  and p.age >= a.minage\n" +
             "ORDER BY m.releaseYear DESC")

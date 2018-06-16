@@ -26,7 +26,7 @@ public class ProfileMovieController {
      * @param Profile
      */
     ResponseEntity<Response> getProfileFavoriteMovies(@RequestBody Profile profile) {
-        logger.info("Name: %s, Age: %d, AdminId: %s", profile.getName(), profile.getAge(), profile.getAdminId());
+        logger.info("ID:" + profile.getId() + "Age: " + profile.getAge() + "adminID" + profile.getAdminId());
         return new ResponseEntity<Response>(new Response(mapper.getProfileFavoriteMovies(profile)), HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class ProfileMovieController {
      * @param Profile
      */
     ResponseEntity<Response> getProfileAppropriateMovies(@RequestBody Profile profile) {
-        logger.info("Name: %s, Age: %d, AdminId: %s", profile.getName(), profile.getAge(), profile.getAdminId());
+        logger.info("ID:" + profile.getId() + "Age: " + profile.getAge() + "adminID" + profile.getAdminId());
         return new ResponseEntity<Response>(new Response(mapper.getProfileAppropriateMovies(profile)), HttpStatus.OK);
     }
 }
