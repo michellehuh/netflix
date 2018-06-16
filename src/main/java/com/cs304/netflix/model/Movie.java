@@ -4,17 +4,18 @@ import java.math.BigDecimal;
 
 public class Movie {
     BigDecimal id, duration, releaseYear;
-    String title, ageRestriction;
+    String title, ageRestriction, genre;
 
     public Movie(){
     }
 
-    public Movie(BigDecimal id, String title, BigDecimal duration, String ageRestriction, BigDecimal releaseYear){
+    public Movie(BigDecimal id, BigDecimal duration, BigDecimal releaseYear, String title, String ageRestriction, String genre) {
         this.id = id;
-        this.title = title;
         this.duration = duration;
-        this.ageRestriction = ageRestriction;
         this.releaseYear = releaseYear;
+        this.title = title;
+        this.ageRestriction = ageRestriction;
+        this.genre = genre;
     }
 
     public BigDecimal getId() {
@@ -55,5 +56,13 @@ public class Movie {
 
     public void setReleaseYear(BigDecimal releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }
