@@ -3,13 +3,13 @@ package com.cs304.netflix.model;
 import java.math.BigDecimal;
 
 public class Watches {
-    BigDecimal movieId, adminId, timeIn;
-    String profileName;
+    BigDecimal movieId, timeIn;
+    String profileName, adminId;
 
     public Watches(){
     }
 
-    public Watches(BigDecimal movieId, BigDecimal adminId, String profileName, BigDecimal timeIn){
+    public Watches(BigDecimal movieId, String adminId, String profileName, BigDecimal timeIn){
         this.movieId = movieId;
         this.adminId = adminId;
         this.profileName = profileName;
@@ -24,11 +24,11 @@ public class Watches {
         this.movieId = movieId;
     }
 
-    public BigDecimal getAdminId() {
+    public String getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(BigDecimal adminId) {
+    public void setAdminId(String adminId) {
         this.adminId = adminId;
     }
 

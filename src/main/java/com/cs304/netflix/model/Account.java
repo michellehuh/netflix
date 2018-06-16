@@ -1,30 +1,29 @@
 package com.cs304.netflix.model;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
 
 public class Account {
 
-    BigDecimal id;
+    String id;
     String name;
     Date dob;
 
     public Account() {
     }
 
-    public Account(BigDecimal id, String name, Timestamp dob) {
+    public Account(String id, String name, Timestamp dob) {
         this.id = id;
         this.name = name;
         this.dob = new Date(dob.getTime());
     }
 
-    public BigDecimal getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(String id) {
         this.id = id;
     }
 
