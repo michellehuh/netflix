@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import './Profile.css';
 import { connect } from "react-redux";
 import { getProfiles } from "../../actions/profile";
-import { Image, Card, Divider, Button, Icon } from 'semantic-ui-react';
+import { Image, Card, Divider, Button, Icon, Message, Segment } from 'semantic-ui-react';
 
 
 class ProfilePage extends React.Component {
@@ -40,21 +40,18 @@ class ProfilePage extends React.Component {
 
     createProfiles = profiles => {
         const imglist = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
-        return profiles.map(function (profile) {
-            return (
-                <Card className={'profile-card'}>
-                    <Image src={ 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}
-                           // label={{ as: 'a', corner: 'right', icon: 'pencil alternate' }}
-                    />
-                        <Card.Content>
-                            <Card.Header> {profile.name} </Card.Header>
-                            {/*<Button icon className={'edit-button'}>*/}
-                                {/*<Icon name='pencil alternate' />*/}
-                            {/*</Button>*/}
-                        </Card.Content>
-                </Card>
-            )
-        }.bind(this))
+        return (
+            <Card.Group itemsPerRow={6}>
+                { profiles.map(function (profile) {
+                    return (
+                        <Card className={'profile-card'}>
+                            <Image src={ 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'} />
+                                <Card.Content>
+                                    <Card.Header> {profile.name} </Card.Header>
+                                </Card.Content>
+                        </Card>
+                        )}.bind(this))}
+            </Card.Group>)
     }
 
     render() {
@@ -62,9 +59,17 @@ class ProfilePage extends React.Component {
         return (
             <div className="ProfilePage">
                 <Divider horizontal inverted>Profiles</Divider>
-                <Card.Group itemsPerRow={6}>
-                    { this.createProfiles(profiles) }
-                </Card.Group>
+
+                    { (profiles && profiles.length)? this.createProfiles(profiles) : (
+                        <div>
+                        <Segment warning color={'yellow'} inverted  textAlign='center'>
+                            <Icon name='warning' />
+                            You have no profile!
+                        </Segment>
+                        </div>
+                    )}
+
+                <Divider horizontal inverted>Create Profile</Divider>
             </div>
         );
     }
