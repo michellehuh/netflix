@@ -13,3 +13,8 @@
 .PlanChooserContainer {
   height: 23%;
 }
+
+.ui.attached.very.padded.segment {
+  background-color:transparent;
+  border: none;
+}
