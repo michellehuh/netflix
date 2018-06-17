@@ -34,8 +34,8 @@ class PlanChooser extends React.Component {
   render() {
     return (
       <div className="PlanChooserContainer">
-        <Form>{this.populateRadios(formFields)}</Form>
-        <Button.Group color="olive" fluid style={{ marginTop: 15 }}>
+        <Form inverted>{this.populateRadios(formFields)}</Form>
+        <Button.Group color="red" fluid style={{ marginTop: 15 }}>
           <Button onClick={this.props.handlePlanChosen}>ADD PLAN</Button>
         </Button.Group>
       </div>

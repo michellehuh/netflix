@@ -22,7 +22,7 @@ class SignUpForm extends React.Component {
     const { signUpData, onChangeSignUpText } = this.props;
     return (
       <div>
-        <Form>
+        <Form inverted>
           <Form.Field error={!!errors.email}>
             <label htmlFor="email">Email</label>
             <input
@@ -48,7 +48,7 @@ class SignUpForm extends React.Component {
             {errors.password && <InlineError text={errors.password} />}
           </Form.Field>
           <Form.Button
-            color="olive"
+            color="red"
             fluid
             onClick={this.props.handleCreateAccount}
           >

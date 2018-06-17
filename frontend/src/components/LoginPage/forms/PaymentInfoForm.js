@@ -55,7 +55,7 @@ class PaymentInfoForm extends Component {
     const { paymentInfo, onChangePaymentInfoText } = this.props;
     return (
       <div>
-        <Form>
+        <Form inverted>
           <Form.Group widths="equal">
             {this.populateGroupFormInputs(cardInfo)}
           </Form.Group>
@@ -67,12 +67,12 @@ class PaymentInfoForm extends Component {
             value={paymentInfo.billingAddress}
             onChange={onChangePaymentInfoText}
           />
-          <Form.Group widths="equal">
+          <Form.Group widths="equal" inverted>
             {this.populateGroupFormInputs(addressInfo)}
           </Form.Group>
         </Form>
         <Button
-          color="olive"
+          color="red"
           fluid
           onClick={this.props.handlePaymentInfoSubmitted}
         >

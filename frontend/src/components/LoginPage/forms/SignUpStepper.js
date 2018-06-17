@@ -89,7 +89,7 @@ class SignUpStepper extends React.Component {
     api
       .paymentInfoSubmitted(paymentInfoData)
       .then(() => {
-        this.props.history.push("/profile");
+        this.props.history.push("/");
       })
       .catch(e => {
         alert(e.message);
@@ -120,8 +120,8 @@ class SignUpStepper extends React.Component {
     const { curStep, signUpData } = this.state;
     return (
       <div>
-        <Step.Group attached="top">
-          <Step active={curStep === 1}>
+        <Step.Group attached="top" inverted>
+          <Step active={curStep === 1} inverted>
             <Icon name="user" />
             <Step.Content>
               <Step.Title>Account</Step.Title>
@@ -146,27 +146,27 @@ class SignUpStepper extends React.Component {
           </Step>
         </Step.Group>
 
-        <Segment padded="very" attached>
+        <Segment padded="very" attached inverted>
           {curStep === 1 && (
             <SignUpForm
               signUpData={signUpData}
               onChangeSignUpText={this.onChangeSignUpText}
               handleCreateAccount={this.handleCreateAccount}
-            />
+              inverted />
           )}
           {curStep === 2 && (
             <PlanChooser
               planValue={this.state.planValue}
               handlePlanValueChange={this.handlePlanValueChange}
               handlePlanChosen={this.handlePlanChosen}
-            />
+              inverted />
           )}
           {curStep === 3 && (
             <PaymentInfoForm
               paymentInfo={this.state.paymentInfo}
               onChangePaymentInfoText={this.onChangePaymentInfoText}
               handlePaymentInfoSubmitted={this.handlePaymentInfoSubmitted}
-            />
+              inverted />
           )}
         </Segment>
       </div>

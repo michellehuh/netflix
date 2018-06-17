@@ -32,7 +32,7 @@ class LoginPage extends React.Component {
           />
           <LoginForm submit={this.submit} />
         </div>
-        <Divider horizontal section>
+        <Divider horizontal section inverted>
           Need an account?
         </Divider>
         <SignUpStepper history={this.props.history} />
