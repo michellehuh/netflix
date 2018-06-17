@@ -1,7 +1,10 @@
 package com.cs304.netflix.mapper;
 
+import com.cs304.netflix.model.Admin;
 import com.cs304.netflix.model.Profile;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface ProfileInfoMapper {
@@ -40,5 +43,8 @@ public interface ProfileInfoMapper {
             " WHERE id = #{id}, adminId = #{adminId}")
     boolean deleteProfile(Profile profile);
 
-
+    @Select("SELECT * \n" +
+            "  FROM Profile \n" +
+            " WHERE adminId = #{id}")
+    List<Profile> getProfiles(Admin admin);
 }
