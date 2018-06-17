@@ -21,7 +21,7 @@ class SignUpForm extends React.Component {
     const { errors } = this.state;
     const { signUpData, onChangeSignUpText } = this.props;
     return (
-      <div>
+      <div  className="SignupFormContainer">
         <Form inverted>
           <Form.Field error={!!errors.email}>
             <label htmlFor="email">Email</label>

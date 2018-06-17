@@ -18,3 +18,33 @@
   background-color:transparent;
   border: none;
 }
+
+.SignupStepperContainer {
+  align-items: center;
+  width: 550px;
+  /*text-align: center;*/
+}
+
+.SignupFormContainer, .PlanChooserContainer {
+  width: 300px;
+  align-items: center;
+  margin: auto;
+  /*text-align: center;*/
+}
+
+.SignupStepperContainer .title {
+  text-align: center;
+  /*margin-left: 150px;*/
+}
+
+.PaymentFormContainer {
+  width: 500px;
+  margin: auto;
+}
+/*.ui.mini.steps {*/
+  /*width: 600px;*/
+/*}*/
+
+.ui.mini.steps .title{
+  color:black !important;
+}

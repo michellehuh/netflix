@@ -88,9 +88,7 @@ class SignUpStepper extends React.Component {
     );
     api
       .paymentInfoSubmitted(paymentInfoData)
-      .then(() => {
-        this.props.history.push("/");
-      })
+      .then(() => this.props.onComplete(0,0))
       .catch(e => {
         alert(e.message);
       });
@@ -119,8 +117,8 @@ class SignUpStepper extends React.Component {
   render() {
     const { curStep, signUpData } = this.state;
     return (
-      <div>
-        <Step.Group attached="top" inverted>
+      <div className='SignupStepperContainer'>
+        <Step.Group size={"mini"}>
           <Step active={curStep === 1} inverted>
             <Icon name="user" />
             <Step.Content>
@@ -177,7 +175,8 @@ class SignUpStepper extends React.Component {
 SignUpStepper.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+    onComplete: PropTypes.func.isRequired
 };
 
 export default SignUpStepper;

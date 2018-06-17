@@ -54,7 +54,7 @@ class PaymentInfoForm extends Component {
   render() {
     const { paymentInfo, onChangePaymentInfoText } = this.props;
     return (
-      <div>
+      <div className="PaymentFormContainer">
         <Form inverted>
           <Form.Group widths="equal">
             {this.populateGroupFormInputs(cardInfo)}
