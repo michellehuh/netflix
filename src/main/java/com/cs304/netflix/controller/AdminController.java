@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
 @RestController
 @MapperScan("com.cs304.netflix.mapper")
@@ -46,7 +48,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/admin")
-    public ResponseEntity<Boolean> delete(@RequestBody Integer id) {
+    public ResponseEntity<Boolean> delete(@RequestBody String id) {
         return new ResponseEntity<Boolean>(mapper.delete(id), HttpStatus.OK);
     }
 
@@ -62,15 +64,41 @@ public class AdminController {
         return new ResponseEntity<>(new Response(mapper.getPayment(id)), HttpStatus.OK);
     }
 
-    //request: adminId, name, age, id
-    @PostMapping("/admin/addProfile")
-    public ResponseEntity<Response> addProfile(@RequestBody Profile profile){
-        mapper.addProfile(profile);
-        return new ResponseEntity<>(new Response(mapper.addProfile(profile)), HttpStatus.OK);
-    }
+    //This doesn't really work yet idk why
+//    //request: adminId, name, age, id
+//    @PostMapping("/admin/addProfile")
+//    public ResponseEntity<Profile> addProfile(@RequestBody Profile profile){
+//        logger.info(profile.getAdminId() + profile.getName() + profile.getAge() + profile.getId());
+//        mapper.addProfile(profile);
+//        return new ResponseEntity<Profile>(mapper.getProfile(profile), HttpStatus.OK);
+//    }
 
     @GetMapping("/admin/{id}/profiles")
     public ResponseEntity<Response> getProfiles(@PathVariable String id){
         return new ResponseEntity<>(new Response(mapper.getProfiles(id)), HttpStatus.OK);
     }
+
+    //not tested
+    @PostMapping("/admin/{adminiId}/updateProfile")
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
+        mapper.updateProfile(profile);
+        return new ResponseEntity<Profile>(profile, HttpStatus.OK);
+    }
+
+    //not tested
+    @DeleteMapping("/admin/{adminId}/deleteProfile")
+    public ResponseEntity<Boolean> deleteProfile(@PathVariable String adminId, @RequestBody BigDecimal id){
+        return new ResponseEntity<Boolean>(mapper.deleteprofile(adminId, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/{adminId}/movieDiv")
+    public ResponseEntity<Response> movieDiv(@PathVariable String adminId){
+        return new ResponseEntity<>(new Response(mapper.movieDivision(adminId)), HttpStatus.OK);
+    }
+
+    @GetMapping("admin/{adminId}/watchTime")
+    public ResponseEntity<Response> watchTime(@PathVariable String adminId){
+        return new ResponseEntity<>(new Response(mapper.watchTime(adminId)), HttpStatus.OK);
+    }
+
 }

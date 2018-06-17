@@ -16,6 +16,11 @@ public class ProfileAndWatchTime {
         this.watchTime = watchTime;
     }
 
+    public ProfileAndWatchTime(String name, BigDecimal watchTime){
+        this.name = name;
+        this.watchTime = watchTime;
+    }
+
     public String getName() {
         return name;
     }

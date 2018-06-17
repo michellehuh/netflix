@@ -1,10 +1,9 @@
 package com.cs304.netflix.mapper;
 
-import com.cs304.netflix.model.Admin;
-import com.cs304.netflix.model.PaymentInfo;
-import com.cs304.netflix.model.Profile;
+import com.cs304.netflix.model.*;
 import org.apache.ibatis.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -20,7 +19,7 @@ public interface AdminMapper {
     boolean add(Admin admin);
 
     @Delete("DELETE FROM Admin WHERE id=#{id}")
-    boolean delete(int id);
+    boolean delete(String id);
 
     @Update("UPDATE Admin SET email=#{email}, password=#{password}, planId=#{planId} paymentId=#{paymentId} WHERE id=#{id}")
     void update(Admin admin);
@@ -41,6 +40,34 @@ public interface AdminMapper {
             "#{age}, #{id}")
     boolean addProfile(Profile profile);
 
-    @Select("SELECT Profile.name, Profile.age, Profile.id FROM Profile, Admin WHERE adminId=#{id}")
+    @Select("SELECT DISTINCT Profile.name, Profile.age, Profile.id FROM Profile, Admin WHERE adminId=#{id}")
     List<Profile> getProfiles(String id);
+
+    @Select("SELECT * FROM Profile WHERE adminId=#{adminId} AND id=#{id}")
+    Profile getProfile(Profile profile);
+
+    @Update("UPDATE Profile SET name=#{name}, age=#{age} WHERE adminId=#{adminId} AND id=#{id}")
+    void updateProfile(Profile profile);
+
+    @Delete("DELETE FROM Profile WHERE adminId=#{adminId} AND id=#{id}")
+    boolean deleteprofile(String adminId, BigDecimal id);
+
+    @Select("SELECT DISTINCT M.title\n" +
+            "FROM Movie M\n" +
+            "WHERE NOT EXISTS\n" +
+            "    ((SELECT P.id\n" +
+            "        FROM Profile P\n" +
+            "        WHERE P.adminId = #{adminId})\n" +
+            "    MINUS\n" +
+            "    (SELECT W.profileId\n" +
+            "        FROM Watches W\n" +
+            "        WHERE W.movieId = M.id))\n")
+    List<Movie> movieDivision(String adminId);
+
+    @Select("SELECT P.name, SUM(W.timeIn) AS watchTime\n" +
+            "FROM Watches W, Profile P\n" +
+            "WHERE W.adminId =#{adminId} AND P.adminId = W.adminId AND P.id = W.profileId\n" +
+            "GROUP BY P.name\n" +
+            "ORDER BY watchTime DESC\n")
+    List<ProfileAndWatchTime> watchTime(String adminId);
 }
