@@ -1,10 +1,10 @@
 package com.cs304.netflix.mapper;
 
+import com.cs304.netflix.model.Admin;
 import com.cs304.netflix.model.Profile;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface ProfileInfoMapper {
@@ -15,11 +15,13 @@ public interface ProfileInfoMapper {
             "   and id = #{id}")
     Profile getProfileByAdminIdAndId(Profile profile);
 
+
     @Select("SELECT * \n" +
-            "  FROM Profile \n" +
-            " WHERE adminId = #{adminId}\n" +
-            "   and name = #{name}")
-    Profile getProfileByAdminIdAndName(Profile profile);
+            "  FROM (SELECT * FROM Profile \n" +
+            "         WHERE adminId = #{adminId}\n" +
+            "         ORDER BY id DESC)\n" +
+            "  WHERE rownum <= 1")
+    Profile getLastProfile(Profile profile);
 
     @Update("UPDATE Profile \n" +
             "   SET age = #{age} \n" +
@@ -28,11 +30,21 @@ public interface ProfileInfoMapper {
     Profile updateAge(Profile profile);
 
     @Insert("INSERT INTO Profile ( id, name, adminId, age )\n" +
-            "VALUES ((((SELECT max(id) \n" +
-            "             FROM Profile \n" +
-            "             WHERE adminId = #{adminId}) || 0) + 1)\n" +
+            "VALUES ((nvl(( SELECT max(id) \n" +
+            "               FROM Profile \n" +
+            "               WHERE adminId = #{adminId}), 0) + 1)\n" +
             "         , #{name}\n" +
             "         , #{adminId}\n" +
             "         , #{age})")
     boolean createProfile(Profile profile);
+
+
+    @Delete("DELETE FROM Profile\n" +
+            " WHERE id = #{id}, adminId = #{adminId}")
+    boolean deleteProfile(Profile profile);
+
+    @Select("SELECT * \n" +
+            "  FROM Profile \n" +
+            " WHERE adminId = #{id}")
+    List<Profile> getProfiles(Admin admin);
 }

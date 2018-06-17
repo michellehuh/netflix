@@ -1,0 +1,9 @@
+.profile-card .edit-button {
+    background-color: transparent !important;
+    float: right;
+}
+
+#logo {
+    margin: 15px;
+    max-width: 100px;
+}
