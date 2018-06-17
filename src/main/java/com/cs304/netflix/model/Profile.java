@@ -8,6 +8,13 @@ public class Profile {
 
     public Profile() {}
 
+    public Profile(String adminId, String name, BigDecimal age, BigDecimal id){
+        this.adminId = adminId;
+        this.name = name;
+        this.age = age;
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
