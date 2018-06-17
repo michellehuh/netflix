@@ -2,7 +2,7 @@
 import React from "react";
 import { Step, Segment, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import * as api from "../../api";
+import * as api from "../../../api";
 import SignUpForm from "./SignUpForm";
 import PlanChooser from "./PlanChooser";
 import PaymentInfoForm from "./PaymentInfoForm";

@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import LoginPage from "./components/pages/LoginPage";
+import LoginPage from "./components/LoginPage/LoginPage";
 import ProfilePage from "./components/pages/ProfilePage";
-import DashboardPage from "./components/pages/DashboardPage";
+import DashboardPage from "./components/DashboardPage/DashboardPage";
 
 const App = () => (
   <div className="ui container">

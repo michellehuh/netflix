@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Radio, Button } from "semantic-ui-react";
 import PropType from "prop-types";
-import "../css/LoginPage.css";
+import "../../css/LoginPage.css";
 
 const formFields = [
   { id: 0, label: "Trial", planValue: 0 },

@@ -40,3 +40,33 @@ export const paymentInfoSubmitted = data =>
       });
     return res.json();
   });
+
+export const getProfileAppropriateMovies = data =>
+  fetch("http://localhost:8080/profile/movies/all", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    if (res.status !== 200)
+      return Promise.reject({
+        message: "It's not you, it's us! Refresh within a few seconds."
+      });
+    return res.json();
+  });
+
+export const getProfileFavoriteMovies = data =>
+  fetch("http://localhost:8080/profile/movies/favorites", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    if (res.status !== 200)
+      return Promise.reject({
+        message: "It's not you, it's us! Refresh within a few seconds."
+      });
+    return res.json();
+  });
