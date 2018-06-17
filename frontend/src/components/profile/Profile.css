@@ -3,11 +3,11 @@ body {
 }
 
 .ui.card.profile-card {
-    border: 1px solid black;
+
 }
 
 .ui.card.profile-card:hover {
-    border: 1px solid red;
+    cursor: pointer;
 }
 
 .profile-card .edit-button {
@@ -27,4 +27,15 @@ body {
 .ProfileForm {
     max-width: 300px;
     margin: auto;
+    padding-bottom: 200px;
+}
+
+.ManageProfiles {
+    text-align: center;
+    align-items: center;
+}
+
+
+.ui.card.profile-card .ProfileForm{
+    padding-bottom: 0;
 }

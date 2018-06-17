@@ -3,15 +3,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getProfiles } from "../../actions/profile";
-import { Image, Card, Divider, Button, Icon, Message, Segment, Accordion } from 'semantic-ui-react';
+import { Image, Card, Divider, Button, Icon, Message, Segment, Accordion, Form } from 'semantic-ui-react';
 import ProfileForm from "./ProfileForm";
+import ProfileCard from "./ProfileCard";
 
 
 class ProfilePage extends React.Component {
 
     state = {
         profiles: [],
-        activeIndex: 1
+        activeIndex: 1,
+        isProfileEditMode: false
     }
 
     constructor() {
@@ -30,19 +32,18 @@ class ProfilePage extends React.Component {
         console.log(data);
     }
 
-    createProfiles = profiles => {
+    createProfiles = (profiles) => {
         const imglist = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
+        const {isProfileEditMode } = this.state;
         return (
             <Card.Group itemsPerRow={6}>
                 { profiles.map(function (profile) {
                     return (
-                        <Card className={'profile-card'}>
-                            <Image src={ 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'} />
-                                <Card.Content>
-                                    <Card.Header> {profile.name} </Card.Header>
-                                </Card.Content>
-                        </Card>
-                        )}.bind(this))}
+                        <ProfileCard image = { 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}
+                                     profile = {profile}
+                                     isProfileEditMode = {isProfileEditMode}
+                        />
+                    )}.bind(this))}
             </Card.Group>)
     }
 
@@ -52,21 +53,28 @@ class ProfilePage extends React.Component {
         const newIndex = activeIndex === index ? -1 : index
 
         this.setState({ activeIndex: newIndex })
+
+
+        if (newIndex) this.setState({isProfileEditMode: false});
+    }
+
+    handleManageProfiles = () => {
+        this.setState({isProfileEditMode: !this.state.isProfileEditMode});
     }
 
     render() {
-        const { profiles, activeIndex } = this.state;
+        const { profiles, activeIndex, isProfileEditMode } = this.state;
         return (
             <div className="ProfilePage">
                 <Divider horizontal inverted>Profiles</Divider>
-                    { (profiles && profiles.length)? this.createProfiles(profiles) : (
-                        <div>
+                { (profiles && profiles.length)? this.createProfiles(profiles) : (
+                    <div>
                         <Segment warning color={'red'} inverted tertiary textAlign='center'>
                             <Icon name='warning' />
                             You have no profile!
                         </Segment>
-                        </div>
-                    )}
+                    </div>
+                )}
 
                 <Accordion inverted>
                     <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick}>
@@ -74,9 +82,18 @@ class ProfilePage extends React.Component {
                         Create Profile
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 0}>
+                        <Divider horizontal section inverted>
+                            Create Profile
+                        </Divider>
                         <ProfileForm/>
                     </Accordion.Content>
                 </Accordion>
+                {profiles && profiles.length &&
+                (<div className='ManageProfiles'>
+                    <Button basic color='red' onClick={this.handleManageProfiles}>
+                    {(isProfileEditMode? 'Done' : 'Manage Profiles')}
+                    </Button>
+                </div>)}
             </div>
         );
     }
@@ -92,8 +109,7 @@ ProfilePage.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    getProfiles: PropTypes.func.isRequired, // auth.js
-    // updateProfiles: ProtoType.func.
+    getProfiles: PropTypes.func.isRequired
 };
 
 export default connect(

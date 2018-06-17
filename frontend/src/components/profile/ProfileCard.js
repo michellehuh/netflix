@@ -1,20 +1,44 @@
 import React from 'react';
-import {Card, Image, Icon, Button} from 'semantic-ui-react';
+import PropTypes from "prop-types";
+import {Card, Image, Icon, Button, Form} from 'semantic-ui-react';
+import ProfileForm from './ProfileForm'
 
 class ProfileCard extends React.Component {
 
+    state = { profile: {} }
+
+    constructor(props) {
+        super();
+        this.state = props;
+    }
+
     render() {
+        const { profile, image } = this.state;
+        const {isProfileEditMode } = this.props;
+        console.log(isProfileEditMode); // state updated
         return (
-            <Card>
-                <Image src={ 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}>
-                    <Card.Content>
+            <Card className={'profile-card'}>
+                <Image src={ image } />
+
+                {isProfileEditMode?
+                    (<Card.Content>
+                        <ProfileForm profile={profile} />
+                    </Card.Content>)
+                    :
+                    (<Card.Content>
                         <Card.Header> {profile.name} </Card.Header>
-                        <Button icon className={"edit-button"}>
-                            <Icon name='pencil alternate' />
-                        </Button>
-                    </Card.Content>
+                    </Card.Content>)
+
+                }
             </Card>
         )
     }
+}
+
+ProfileCard.propTypes = {
+    profile: PropTypes.object.isRequired,
+    image: PropTypes.string.isRequired,
+    isProfileEditMode: PropTypes.bool.isRequired
 };
 
+export default ProfileCard;

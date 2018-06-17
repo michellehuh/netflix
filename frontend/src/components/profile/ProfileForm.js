@@ -1,23 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Message, Form, Button } from 'semantic-ui-react'
 
 class ProfileForm extends React.Component {
 
     state = {
-        profile: {}
+        name: "",
+        age: null
     }
 
-    constructor() {
+    constructor(prop) {
         super();
+        this.state = prop.profile || {
+            name: "",
+            age: null
+        };
     }
 
     onSubmit = data => {
         console.log(data);
     }
 
+    onChangeText = e =>
+        this.setState({[e.target.name]: e.target.value });
+
     render() {
 
-        const { profile } = this.state;
+        const { name, age } = this.state;
         return (
             <div className={'ProfileForm'}>
                 <Form onSubmit={this.onSubmit} inverted>
@@ -28,7 +37,7 @@ class ProfileForm extends React.Component {
                             id="name"
                             name="name"
                             placeholder="Jane"
-                            value={profile.name}
+                            value={ name || ""}
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
@@ -39,7 +48,7 @@ class ProfileForm extends React.Component {
                             id="age"
                             name="age"
                             placeholder="age"
-                            value={profile.age}
+                            value={age || null}
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
@@ -50,6 +59,10 @@ class ProfileForm extends React.Component {
             </div>
         )
     }
+};
+
+ProfileForm.propTypes = {
+    profile: PropTypes.object
 };
 
 export default ProfileForm;
