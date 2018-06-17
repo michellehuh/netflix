@@ -22,7 +22,7 @@ class ProfileCard extends React.Component {
 
                 {isProfileEditMode?
                     (<Card.Content>
-                        <ProfileForm profile={profile} />
+                        <ProfileForm profile={profile} inverted={false}/>
                     </Card.Content>)
                     :
                     (<Card.Content>

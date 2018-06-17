@@ -27,9 +27,11 @@ class ProfileForm extends React.Component {
     render() {
 
         const { name, age } = this.state;
+        const { inverted } = this.props;
+
         return (
             <div className={'ProfileForm'}>
-                <Form onSubmit={this.onSubmit} inverted>
+                <Form onSubmit={this.onSubmit} inverted={inverted}>
                     <Form.Field >
                         <label htmlFor="name">Name</label>
                         <input
@@ -41,7 +43,7 @@ class ProfileForm extends React.Component {
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
-                    <Form.Field inverted>
+                    <Form.Field>
                         <label htmlFor="age">Age</label>
                         <input
                             type="number"
@@ -62,7 +64,12 @@ class ProfileForm extends React.Component {
 };
 
 ProfileForm.propTypes = {
-    profile: PropTypes.object
+    profile: PropTypes.object,
+    inverted: PropTypes.bool
+};
+
+ProfileForm.defaultProps = {
+    inverted: true
 };
 
 export default ProfileForm;
