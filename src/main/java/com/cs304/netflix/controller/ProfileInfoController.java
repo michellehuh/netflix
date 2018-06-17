@@ -28,7 +28,7 @@ public class ProfileInfoController {
         Profile result;
         try {
             mapper.createProfile(profile);
-            result = mapper.getProfileByAdminIdAndName(profile);
+            result = mapper.getLastProfile(profile);
             return new ResponseEntity<Response>(new Response(result), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage());
