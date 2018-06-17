@@ -1,6 +1,6 @@
-import { USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE } from "../types";
+import { USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, PROFILES_RETRIEVE_SUCCESS, PROFILES_RETRIEVE_FAILURE } from "../types";
 
-const initialState = { isLoggedIn: false, user: null, authError: null };
+const initialState = { isLoggedIn: false, user: null, authError: null, profiles: [] };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -8,8 +8,7 @@ const authReducer = (state = initialState, action) => {
       const { user } = action;
       return { ...state, isLoggedIn: true, user: user.id };
     }
-
-    case USER_LOGIN_FAILURE: {
+      case USER_LOGIN_FAILURE: {
       const { error } = action;
       return {
         ...state,
@@ -18,6 +17,13 @@ const authReducer = (state = initialState, action) => {
         authError: error.message
       };
     }
+      case PROFILES_RETRIEVE_SUCCESS: {
+          const { profiles } = action;
+          return { ...state, profiles: profiles };
+      }
+      case PROFILES_RETRIEVE_FAILURE: {
+          return { ...state, profiles: [] };
+      }
 
     default:
       return state;

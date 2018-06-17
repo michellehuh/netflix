@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+}
+
 .profile-card .edit-button {
     background-color: transparent !important;
     float: right;

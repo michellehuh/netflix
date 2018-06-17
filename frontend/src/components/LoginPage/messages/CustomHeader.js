@@ -3,7 +3,9 @@ import { Header, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 const CustomHeader = props => (
-  <Header as="h2">
+  <Header as="h2"
+          inverted
+          color={'red'}>
     <Icon name={props.iconName} />
     <Header.Content>
       {props.headerText}
