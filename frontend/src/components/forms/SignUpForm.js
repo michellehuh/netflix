@@ -10,15 +10,6 @@ class SignUpForm extends React.Component {
     errors: {}
   };
 
-  //   onSubmit = () => {
-  //     const { signUpData } = this.state;
-  //     const errors = this.validate(signUpData);
-  //     this.setState({ errors });
-  //     if (Object.keys(errors).length === 0) {
-  //       this.props.submit(signUpData);
-  //     }
-  //   };
-
   validate = signUpData => {
     const errors = {};
     if (!Validator.isEmail(signUpData.email)) errors.email = "Invalid email";
@@ -59,9 +50,9 @@ class SignUpForm extends React.Component {
           <Form.Button
             color="olive"
             fluid
-            onClick={this.props.handleOnClickNextButton}
+            onClick={this.props.handleCreateAccount}
           >
-            NEXT
+            CREATE ACCOUNT!
           </Form.Button>
         </Form>
       </div>
@@ -72,7 +63,7 @@ class SignUpForm extends React.Component {
 SignUpForm.propTypes = {
   signUpData: PropTypes.object.isRequired,
   onChangeSignUpText: PropTypes.func.isRequired,
-  handleOnClickNextButton: PropTypes.func.isRequired
+  handleCreateAccount: PropTypes.func.isRequired
 };
 
 SignUpForm.defaultProps = {

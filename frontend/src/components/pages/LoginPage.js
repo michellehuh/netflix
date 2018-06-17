@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
         <Divider horizontal section>
           Need an account?
         </Divider>
-        <SignUpStepper />
+        <SignUpStepper history={this.props.history} />
       </div>
     );
   }

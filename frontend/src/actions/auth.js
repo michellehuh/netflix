@@ -5,13 +5,10 @@ export const userLoginSuccess = user => ({
   user
 });
 
-export const userLoginFailure = error => {
-  console.log(error);
-  return {
+export const userLoginFailure = error => ({
     type: USER_LOGIN_FAILURE,
     error
-  };
-};
+  });
 
 // TODO: pass in email & password and fetch result(boolean) from database
 export const login = credentials => dispatch =>
@@ -24,7 +21,6 @@ export const login = credentials => dispatch =>
   })
     .then(res => res.json())
     .then(resObj => {
-      console.log(resObj);
       if (resObj.data !== null) {
         dispatch(userLoginSuccess(resObj.data));
       } else {

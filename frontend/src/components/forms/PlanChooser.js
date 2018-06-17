@@ -4,18 +4,18 @@ import PropType from "prop-types";
 import "../css/LoginPage.css";
 
 const formFields = [
-  { label: "Trial", planValue: 0 },
-  { label: "Basic", planValue: 10 },
-  { label: "Basic +", planValue: 20 },
-  { label: "Premium", planValue: 30 },
-  { label: "Premium HD", planValue: 40 }
+  { id: 0, label: "Trial", planValue: 0 },
+  { id: 1, label: "Basic", planValue: 10 },
+  { id: 2, label: "Basic +", planValue: 20 },
+  { id: 3, label: "Premium", planValue: 30 },
+  { id: 4, label: "Premium HD", planValue: 40 }
 ];
 
 class PlanChooser extends React.Component {
   populateRadios = objArr => {
     const retArr = [];
     objArr.forEach(field => {
-      const { label, planValue } = field;
+      const { id, label, planValue } = field;
       retArr.push(
         <Form.Field key={label}>
           <Radio
@@ -23,7 +23,7 @@ class PlanChooser extends React.Component {
             name="radioGroup"
             value={planValue}
             checked={this.props.planValue === planValue}
-            onClick={() => this.props.handlePlanValueChange(planValue)}
+            onClick={() => this.props.handlePlanValueChange(id, planValue)}
           />
         </Form.Field>
       );
@@ -36,8 +36,7 @@ class PlanChooser extends React.Component {
       <div className="PlanChooserContainer">
         <Form>{this.populateRadios(formFields)}</Form>
         <Button.Group color="olive" fluid style={{ marginTop: 15 }}>
-          <Button onClick={this.props.handleOnClickPrevButton}>PREV</Button>
-          <Button onClick={this.props.handleOnClickNextButton}>NEXT</Button>
+          <Button onClick={this.props.handlePlanChosen}>ADD PLAN</Button>
         </Button.Group>
       </div>
     );
@@ -47,8 +46,7 @@ class PlanChooser extends React.Component {
 PlanChooser.propTypes = {
   handlePlanValueChange: PropType.func.isRequired,
   planValue: PropType.number.isRequired,
-  handleOnClickNextButton: PropType.func.isRequired,
-  handleOnClickPrevButton: PropType.func.isRequired
+  handlePlanChosen: PropType.func.isRequired
 };
 
 PlanChooser.defaultProps = {
