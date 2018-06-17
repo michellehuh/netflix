@@ -24,7 +24,7 @@ public class ProfileInfoController {
 
     @PostMapping("/admin/profile/create")
     public ResponseEntity<Response> login(@RequestBody Profile profile) {
-
+        // {"name": "testNAME", "age":10, "adminId": "21a97bc7-7338-4bd1-bb8b-6edae247bba0" }
         Profile result;
         try {
             mapper.createProfile(profile);

@@ -28,9 +28,9 @@ public interface ProfileInfoMapper {
     Profile updateAge(Profile profile);
 
     @Insert("INSERT INTO Profile ( id, name, adminId, age )\n" +
-            "VALUES (((SELECT max(id) \n" +
+            "VALUES ((((SELECT max(id) \n" +
             "             FROM Profile \n" +
-            "             WHERE adminId = #{adminId}) + 1)\n" +
+            "             WHERE adminId = #{adminId}) || 0) + 1)\n" +
             "         , #{name}\n" +
             "         , #{adminId}\n" +
             "         , #{age})")
