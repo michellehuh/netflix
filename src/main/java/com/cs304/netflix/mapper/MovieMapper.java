@@ -56,7 +56,7 @@ public interface MovieMapper {
             "    MOVIEISOFGENRE G\n" +
             "\n" +
             "\n" +
-            "WHERE M.ID = WATCHCOUNT.MOVIEID AND M.ID = G.MOVIEID AND G.GENRE = 'ACTION' \n" +
+            "WHERE M.ID = WATCHCOUNT.MOVIEID AND M.ID = G.MOVIEID AND G.GENRE = #{givenGenre} \n" +
             "\n" +
             "ORDER BY WATCHCOUNT.WATCHES DESC)\n" +
             "\n" +
