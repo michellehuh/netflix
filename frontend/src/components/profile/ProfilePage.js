@@ -1,18 +1,18 @@
+import './Profile.css';
 import React from "react";
 import PropTypes from "prop-types";
-import './Profile.css';
 import { connect } from "react-redux";
 import { getProfiles } from "../../actions/profile";
-import { Image, Card, Divider, Button, Icon, Message, Segment } from 'semantic-ui-react';
+import { Image, Card, Divider, Button, Icon, Message, Segment, Accordion } from 'semantic-ui-react';
+import ProfileForm from "./ProfileForm";
 
 
 class ProfilePage extends React.Component {
 
     state = {
-        profiles: []
+        profiles: [],
+        activeIndex: 1
     }
-
-
 
     constructor() {
         super();
@@ -23,18 +23,10 @@ class ProfilePage extends React.Component {
         console.log(this.props.user);
         this.props.getProfiles(this.props.user).then(function() {
             this.setState({profiles: this.props.profiles});
-            // console.log("profiles", this.props.profiles);
         }.bind(this));
     }
-    //
-    submit = data => {
-        // this.props.selectProfile(data).then(() => {
-        //     console.log(data);
-        //     if (this.props.isLoggedIn) {
-        //         this.props.history.push("/profile");
-        //     }
-        // });
 
+    submit = data => {
         console.log(data);
     }
 
@@ -54,28 +46,41 @@ class ProfilePage extends React.Component {
             </Card.Group>)
     }
 
+    handleAccordionClick = (e, titleProps) => {
+        const { index } = titleProps
+        const { activeIndex } = this.state
+        const newIndex = activeIndex === index ? -1 : index
+
+        this.setState({ activeIndex: newIndex })
+    }
+
     render() {
-        const { profiles } = this.state;
+        const { profiles, activeIndex } = this.state;
         return (
             <div className="ProfilePage">
                 <Divider horizontal inverted>Profiles</Divider>
-
                     { (profiles && profiles.length)? this.createProfiles(profiles) : (
                         <div>
-                        <Segment warning color={'yellow'} inverted  textAlign='center'>
+                        <Segment warning color={'red'} inverted tertiary textAlign='center'>
                             <Icon name='warning' />
                             You have no profile!
                         </Segment>
                         </div>
                     )}
 
-                <Divider horizontal inverted>Create Profile</Divider>
+                <Accordion inverted>
+                    <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick}>
+                        <Icon name='dropdown' />
+                        Create Profile
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 0}>
+                        <ProfileForm/>
+                    </Accordion.Content>
+                </Accordion>
             </div>
         );
     }
-};
-
-// export default ProfilePage;
+}
 
 const mapStateToProps = state => ({
     user: state.auth.user,
