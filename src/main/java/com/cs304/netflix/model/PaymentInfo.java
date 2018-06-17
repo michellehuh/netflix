@@ -1,6 +1,7 @@
 package com.cs304.netflix.model;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class PaymentInfo {
     BigDecimal expMonth, expYear;
@@ -72,4 +73,6 @@ public class PaymentInfo {
     public void setAdminId(String adminId) {
         this.adminId = adminId;
     }
+
+    public void generateAndSetId() { this.id = UUID.randomUUID().toString(); }
 }

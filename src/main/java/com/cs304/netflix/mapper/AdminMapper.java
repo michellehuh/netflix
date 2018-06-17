@@ -1,6 +1,7 @@
 package com.cs304.netflix.mapper;
 
 import com.cs304.netflix.model.Admin;
+import com.cs304.netflix.model.PaymentInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface AdminMapper {
     boolean delete(int id);
 
     @Update("UPDATE Admin SET email=#{email}, password=#{password}, planId=#{planId} paymentId=#{paymentId} WHERE id=#{id}")
-    public void update(Admin admin);
+    void update(Admin admin);
 
     @Select("SELECT * FROM Admin WHERE email=#{email} and password=#{password}")
     Admin login(Admin admin);
@@ -31,4 +32,10 @@ public interface AdminMapper {
 
     @Update("UPDATE Admin SET planId=#{planId} WHERE id=#{id}")
     void updatePlan(Admin admin);
+
+    @Update("UPDATE Admin SET paymentId=#{id} WHERE id=#{adminId}")
+    void updatePaymentInfo(PaymentInfo paymentInfo);
+
+    @Insert("INSERT INTO PaymentInfo (id, cardName, cardNo, expMonth, expYear, billingAddress) VALUES (#{id}, #{cardName}, #{cardNo}, #{expMonth}, #{expYear}, #{billingAddress})")
+    void addPaymentInfo(PaymentInfo paymentInfo);
 }

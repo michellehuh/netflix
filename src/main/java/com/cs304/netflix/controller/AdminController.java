@@ -3,6 +3,7 @@ package com.cs304.netflix.controller;
 
 import com.cs304.netflix.mapper.AdminMapper;
 import com.cs304.netflix.model.Admin;
+import com.cs304.netflix.model.PaymentInfo;
 import com.cs304.netflix.model.Response;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
@@ -50,9 +51,18 @@ public class AdminController {
     }
 
     // request: planId, id
+    // return: Admin(id, null, planId, null, null)
     @PostMapping("/admin/plan")
     public ResponseEntity<Response> updatePlan(@RequestBody Admin admin) {
         mapper.updatePlan(admin);
         return new ResponseEntity<Response>(new Response(admin), HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/payment")
+    public ResponseEntity<Response> updatePaymentInfo(@RequestBody PaymentInfo paymentInfo) {
+        paymentInfo.generateAndSetId();
+        mapper.addPaymentInfo(paymentInfo);
+        mapper.updatePaymentInfo(paymentInfo);
+        return new ResponseEntity<Response>(new Response(paymentInfo), HttpStatus.OK);
     }
 }
