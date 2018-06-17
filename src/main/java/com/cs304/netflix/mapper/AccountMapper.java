@@ -22,5 +22,4 @@ public interface AccountMapper {
 
     @Update("UPDATE Account SET name=#{account.name}, dob=#{account.dob} WHERE id=#{account.id}")
     public void update(Account account);
-
 }

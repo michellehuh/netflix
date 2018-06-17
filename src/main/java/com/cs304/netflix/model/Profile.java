@@ -3,15 +3,10 @@ package com.cs304.netflix.model;
 import java.math.BigDecimal;
 
 public class Profile {
-    String name;
-    BigDecimal adminId;
-    BigDecimal age;
+    String name, adminId;
+    BigDecimal age, id;
 
-    public Profile(String name, BigDecimal adminId, BigDecimal age){
-        this.name = name;
-        this.adminId = adminId;
-        this.age = age;
-    }
+    public Profile() {}
 
     public String getName() {
         return name;
@@ -21,11 +16,11 @@ public class Profile {
         this.name = name;
     }
 
-    public BigDecimal getAdminId() {
+    public String getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(BigDecimal adminId) {
+    public void setAdminId(String adminId) {
         this.adminId = adminId;
     }
 
@@ -35,5 +30,13 @@ public class Profile {
 
     public void setAge(BigDecimal age) {
         this.age = age;
+    }
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 }

@@ -2,9 +2,8 @@ package com.cs304.netflix.controller;
 
 
 import com.cs304.netflix.mapper.AdminMapper;
-import com.cs304.netflix.mapper.AdminMapperTest;
 import com.cs304.netflix.model.Admin;
-import com.cs304.netflix.model.PaymentInfo;
+import com.cs304.netflix.model.Response;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
 @RestController
 @MapperScan("com.cs304.netflix.mapper")
 public class AdminController {
@@ -23,16 +23,18 @@ public class AdminController {
     public static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping("/admin")
-    public ResponseEntity<Admin> create(@RequestBody Admin admin) {
-        // {"id":67453069,"planId":1,"paymentId":0,"email":"michelle@alumni.ubc.ca","password":"qwer"}
+    public ResponseEntity<Response> create(@RequestBody Admin admin) {
+        // {"planId":null,"paymentId":null,"email":"michelle@alumni.ubc.ca","password":"qwer"}
+        admin.generateAndSetId();
+        logger.info(admin.getId() + admin.getEmail() + admin.getPassword());
         mapper.add(admin);
-        return new ResponseEntity<Admin>(admin, HttpStatus.OK);
+        return new ResponseEntity<Response>(new Response(admin.getId()), HttpStatus.OK);
     }
 
     @PostMapping("/admin/login")
-    public ResponseEntity<Admin> login(@RequestBody Admin admin) {
+    public ResponseEntity<Response> login(@RequestBody Admin admin) {
         // {"email":"joon.hur@alumni.ubc.ca","password":"qwer"}
-        return new ResponseEntity<Admin>(mapper.login(admin), HttpStatus.OK);
+        return new ResponseEntity<Response>(new Response(mapper.login(admin)), HttpStatus.OK);
     }
 
     @GetMapping("/admin/{email}")
@@ -47,8 +49,10 @@ public class AdminController {
         return new ResponseEntity<Boolean>(mapper.delete(id), HttpStatus.OK);
     }
 
-//    @PostMapping("/admin/payment")
-//    public ResponseEntity<PaymentInfo> getPayment(@RequestBody Admin admin){
-//        return new ResponseEntity<PaymentInfo>(mapper.getPaymentInfo(admin), HttpStatus.OK);
-//    }
+    // request: planId, id
+    @PostMapping("/admin/plan")
+    public ResponseEntity<Response> updatePlan(@RequestBody Admin admin) {
+        mapper.updatePlan(admin);
+        return new ResponseEntity<Response>(new Response(admin), HttpStatus.OK);
+    }
 }
