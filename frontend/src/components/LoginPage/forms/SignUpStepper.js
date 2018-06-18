@@ -119,7 +119,7 @@ class SignUpStepper extends React.Component {
     return (
       <div className='SignupStepperContainer'>
         <Step.Group size={"mini"}>
-          <Step active={curStep === 1} inverted>
+          <Step active={curStep === 1} >
             <Icon name="user" />
             <Step.Content>
               <Step.Title>Account</Step.Title>

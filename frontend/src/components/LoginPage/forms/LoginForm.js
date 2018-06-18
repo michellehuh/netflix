@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
             />
             {errors.email && <InlineError text={errors.email} />}
           </Form.Field>
-          <Form.Field error={!!errors.password} inverted>
+          <Form.Field error={!!errors.password}>
             <label htmlFor="password">Password</label>
             <input
               type="password"
