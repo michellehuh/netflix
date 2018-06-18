@@ -1,4 +1,4 @@
-import { PROFILE_SELECTED } from "../types";
+import { PROFILE_SELECTED, PROFILE_UPDATE_SUCCESS } from "../types";
 
 const initialState = { profile: null };
 

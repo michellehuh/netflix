@@ -17,15 +17,16 @@ public interface ProfileMovieMapper {
             "                                            GROUP BY MOVIEID) COUNTWATCH\n" +
             "WHERE M.AGERESTRICTION = A.NAME AND P.AGE >= A.MINAGE AND COUNTWATCH.MOVIEID = M.ID AND P.ID = #{id} AND P.ADMINID = #{adminId} AND\n" +
             "    COUNTWATCH.NUMWATCH = (SELECT MAX(NUMWATCH)\n" +
-            "                        \tFROM (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
-            "                                   FROM WATCHES W3, MOVIE M3" +
-            "                                    \t, AGERESTRICTION A2" +
-            "                                    \t, PROFILE P2\n" +
-            "                                \tWHERE W3.MOVIEID = M3.ID " +
-            "                                  \tAND M3.AGERESTRICTION = A2.NAME\n" +
-            "                                  \tAND A2.MINAGE <= P2.age " +
-            "                                  \tAND P2.ADMINID = #{adminId}\n" +
-            "                                  \tAND P2.ID = #{id}\n" +
+            "                             FROM (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
+            "                                     FROM WATCHES W3\n" +
+            "                                        , MOVIE M3" +
+            "                                        , AGERESTRICTION A2" +
+            "                                        , PROFILE P2\n" +
+            "                                    WHERE W3.MOVIEID = M3.ID " +
+            "                                      AND M3.AGERESTRICTION = A2.NAME\n" +
+            "                                      AND A2.MINAGE <= P2.age " +
+            "                                      AND P2.ADMINID = #{adminId}\n" +
+            "                                      AND P2.ID = #{id}\n" +
             "GROUP BY MOVIEID))\n")
     List<Movie> getProfileFavoriteMovies(Profile profile);
 

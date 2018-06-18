@@ -16,3 +16,6 @@ export const PROFILE_UPDATE_FAILURE = "PROFILE_UPDATE_FAILURE";
 export const PROFILE_UPDATE_SUCCESS = "PROFILE_UPDATE_SUCCESS";
 export const PROFILE_DELETE_FAILURE = "PROFILE_DELETE_FAILURE";
 export const PROFILE_DELETE_SUCCESS = "PROFILE_DELETE_SUCCESS";
+
+export const IMGLIST = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
+export const MOST_RECENT_MOVIE_OF_GENRE_SUCCESS = 'MOST_RECENT_MOVIE_OF_GENRE_SUCCESS';
