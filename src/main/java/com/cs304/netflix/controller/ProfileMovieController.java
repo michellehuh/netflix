@@ -40,4 +40,33 @@ public class ProfileMovieController {
         logger.info("ID:" + profile.getId() + "Age: " + profile.getAge() + "adminID" + profile.getAdminId());
         return new ResponseEntity<Response>(new Response(mapper.getProfileAppropriateMovies(profile)), HttpStatus.OK);
     }
+
+    @PostMapping("/profile/movies/myMovies")
+    /**
+     * select all movies that given profile has watched
+     * @param Profile
+     */
+    ResponseEntity<Response> getMyHistoryMovies(@RequestBody Profile profile) {
+        return new ResponseEntity<Response>(new Response(mapper.getMyHistoryMovies(profile)), HttpStatus.OK);
+    }
+
+    @PostMapping("/profile/movies/addMovie")
+    /**
+     * add given Movie to the given profile
+     * @param Profile
+     */
+    ResponseEntity<Response> addMovieToProfile(@RequestBody Profile profile) {
+        mapper.addMovieToProfile(profile);
+        return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/profile/movies/deleteMovie")
+    /**
+     * delete given Movie from the given profile
+     * @param Profile
+     */
+    ResponseEntity<Response> deleteMovieFromProfile(@RequestBody Profile profile) {
+        mapper.deleteMovieFromProfile(profile);
+        return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
+    }
 }

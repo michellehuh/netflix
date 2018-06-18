@@ -2,6 +2,7 @@ package com.cs304.netflix.mapper;
 
 import com.cs304.netflix.model.Movie;
 import com.cs304.netflix.model.Profile;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface ProfileMovieMapper {
 
-    @Select("SELECT M.*, M.AGERESTRICTION\n" +
+    @Select("SELECT M.*\n" +
             "FROM MOVIE M, PROFILE P, AGERESTRICTION A, (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
             "                                            FROM WATCHES W3\n" +
             "                                            GROUP BY MOVIEID) COUNTWATCH\n" +
@@ -30,15 +31,28 @@ public interface ProfileMovieMapper {
 
 
     @Select("SELECT *\n" +
-            "FROM (SELECT m.*\n" +
-            "FROM profile p\n" +
-            " \t, movie m" +
-            " \t, agerestriction a\n" +
-            "WHERE p.adminid = #{adminId}\n" +
-            "  and p.id = #{id}\n" +
-            "  and m.agerestriction = a.name\n" +
-            "  and p.age >= a.minage\n" +
-            "ORDER BY m.releaseYear DESC)" +
+            "FROM\n" +
+            "(SELECT *\n" +
+            "FROM\n" +
+            "(SELECT m.*\n" +
+            "FROM profile p, movie m, agerestriction a\n" +
+            "WHERE p.adminId = #{adminId} and p.id = #{id} and m.agerestriction = a.name and p.age >= a.minage\n" +
+            "MINUS\n" +
+            "SELECT m2.*\n" +
+            "FROM profile p2, watches w, movie m2\n" +
+            "WHERE p2.adminId = #{adminId} and p2.id = #{id} and p2.id = w.profileId and m2.id = w.movieId)\n" +
+            "ORDER BY RELEASEYEAR DESC)\n" +
             "WHERE rownum < 11")
     List<Movie> getProfileAppropriateMovies(Profile profile);
+
+    @Select("SELECT m.*, w.timeIn\n" +
+            "FROM profile p, watches w, movie m\n" +
+            "WHERE p.adminId = #{adminId} and p.id = #{id} and p.id = w.profileId and w.movieId = m.id")
+    List<Movie> getMyHistoryMovies(Profile profile);
+
+    @Select("INSERT INTO watches(movieId, adminId, profileId, timeIn) VALUES (#{movieId}, #{adminId}, #{id}, 0)")
+    void addMovieToProfile(Profile profile);
+
+    @Delete("DELETE FROM watches WHERE adminId = #{adminId} and movieId = #{movieId} and profileId = #{id}")
+    void deleteMovieFromProfile(Profile profile);
 }

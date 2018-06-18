@@ -9,12 +9,11 @@ import "../css/LoginPage.css";
 import SignUpStepper from "./forms/SignUpStepper";
 
 class LoginPage extends React.Component {
-
-  state = {
-    activeIndex: 1
-  }
   constructor() {
     super();
+    this.state = {
+      activeIndex: 1
+    };
 
     this.submit = this.submit.bind(this);
   }
@@ -27,17 +26,16 @@ class LoginPage extends React.Component {
   };
 
   handleAccordionClick = (e, titleProps) => {
+    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
 
-      const { index } = titleProps
-      const { activeIndex } = this.state
-      const newIndex = activeIndex === index ? -1 : index
-
-      this.setState({ activeIndex: newIndex })
-  }
+    this.setState({ activeIndex: newIndex });
+  };
 
   handleSignupComplete = () => {
-      this.handleAccordionClick(0, 0);
-  }
+    this.handleAccordionClick(0, 0);
+  };
 
   render() {
     const { activeIndex } = this.state;
@@ -52,15 +50,22 @@ class LoginPage extends React.Component {
           <LoginForm submit={this.submit} />
         </div>
         <Accordion inverted className="SignupStepperContainer">
-          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick}>
-            <Icon name='dropdown' />
+          <Accordion.Title
+            active={activeIndex === 0}
+            index={0}
+            onClick={this.handleAccordionClick}
+          >
+            <Icon name="dropdown" />
             Create Account
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
             <Divider horizontal section inverted>
               Need an account?
             </Divider>
-            <SignUpStepper history={this.props.history} onComplete={this.handleSignupComplete} />
+            <SignUpStepper
+              history={this.props.history}
+              onComplete={this.handleSignupComplete}
+            />
           </Accordion.Content>
         </Accordion>
       </div>

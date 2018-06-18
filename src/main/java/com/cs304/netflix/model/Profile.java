@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Profile {
     String name, adminId;
-    BigDecimal age, id;
+    BigDecimal age, id, movieId;
 
     public Profile() {}
 
@@ -39,4 +39,8 @@ public class Profile {
     public void setId(BigDecimal id) {
         this.id = id;
     }
+
+    public BigDecimal getMovieId() { return this.movieId; }
+
+    public void setMovieId(BigDecimal movieId) { this.movieId = movieId; }
 }

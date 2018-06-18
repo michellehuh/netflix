@@ -1,0 +1,12 @@
+.topMovieListContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.topMovieListHeader {
+  color: white;
+  font-family: sans-serif;
+  font-size: 1.7em;
+}

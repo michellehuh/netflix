@@ -3,15 +3,15 @@ package com.cs304.netflix.model;
 import java.math.BigDecimal;
 
 public class Movie {
-    BigDecimal id, duration, releaseYear, watches;
-    String title, ageRestriction, genre;
+    BigDecimal id, duration, releaseYear, watches, timeIn;
+    String title, ageRestriction, genre, thumbnail;
 
 
 
     public Movie(){
     }
 
-    public Movie(BigDecimal id, String title, BigDecimal duration, String ageRestriction, BigDecimal releaseYear, String genre, BigDecimal watches){
+    public Movie(BigDecimal id, String title, BigDecimal duration, String ageRestriction, BigDecimal releaseYear, String genre, BigDecimal watches, String thumbnail, BigDecimal timeIn){
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -19,6 +19,8 @@ public class Movie {
         this.releaseYear = releaseYear;
         this.genre = genre;
         this.watches = watches;
+        this.thumbnail = thumbnail;
+        this.timeIn = timeIn;
     }
 
     public BigDecimal getId() {
@@ -74,6 +76,18 @@ public class Movie {
     }
 
     public BigDecimal getWatches() {
-        return watches;
+        return this.watches;
+    }
+
+    public String getThumbnail() { return this.thumbnail; }
+
+    public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
+
+    public void setTimeIn(BigDecimal timeIn){
+        this.timeIn = timeIn;
+    }
+
+    public BigDecimal getTimeIn() {
+        return this.timeIn;
     }
 }
