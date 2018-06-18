@@ -8,23 +8,33 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-
-    @Select("SELECT * FROM Admin")
+    @Select("SELECT * \n" +
+            "  FROM Admin")
     List<Admin> getAll();
 
-    @Select("SELECT * FROM Admin WHERE id = #{id}")
+    @Select("SELECT * \n" +
+            "  FROM Admin \n" +
+            " WHERE id = #{id}")
     Admin getById(int id);
 
-    @Insert("INSERT INTO Admin (id, email, password) values (#{id}, #{email}, #{password})")
+    @Insert("INSERT INTO Admin (id, email, password) \n" +
+            "VALUES (#{id}, #{email}, #{password})")
     boolean add(Admin admin);
 
     @Delete("DELETE FROM Admin WHERE id=#{id}")
     boolean delete(int id);
 
-    @Update("UPDATE Admin SET email=#{email}, password=#{password}, planId=#{planId} paymentId=#{paymentId} WHERE id=#{id}")
+    @Update("UPDATE Admin SET email     = #{email}\n" +
+            "               , password  = #{password}\n" +
+            "               , planId    = #{planId}\n" +
+            "               , paymentId = #{paymentId} \n" +
+            "WHERE id=#{id}")
     void update(Admin admin);
 
-    @Select("SELECT * FROM Admin WHERE email=#{email} and password=#{password}")
+    @Select("SELECT * \n" +
+            "  FROM Admin \n" +
+            " WHERE email=#{email} \n" +
+            "   AND password=#{password}")
     Admin login(Admin admin);
 
     @Select("SELECT count(*) FROM Admin WHERE email=#{email}")
@@ -36,6 +46,12 @@ public interface AdminMapper {
     @Update("UPDATE Admin SET paymentId=#{id} WHERE id=#{adminId}")
     void updatePaymentInfo(PaymentInfo paymentInfo);
 
-    @Insert("INSERT INTO PaymentInfo (id, cardName, cardNo, expMonth, expYear, billingAddress) VALUES (#{id}, #{cardName}, #{cardNo}, #{expMonth}, #{expYear}, #{billingAddress})")
+    @Insert("INSERT INTO PaymentInfo (id, cardName, cardNo, expMonth, expYear, billingAddress) \n" +
+            "VALUES (#{id}\n" +
+            "      , #{cardName}\n" +
+            "      , #{cardNo}\n" +
+            "      , #{expMonth}\n" +
+            "      , #{expYear}\n" +
+            "      , #{billingAddress})")
     void addPaymentInfo(PaymentInfo paymentInfo);
 }
