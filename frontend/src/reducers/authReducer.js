@@ -1,6 +1,6 @@
 import {
     USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, PROFILES_RETRIEVE_SUCCESS, PROFILES_RETRIEVE_FAILURE,
-    PROFILE_UPDATE_SUCCESS
+    PROFILE_UPDATE_SUCCESS, PROFILE_CREATE_SUCCESS, PROFILE_DELETE_SUCCESS
 } from "../types";
 
 const initialState = { isLoggedIn: false, user: null, authError: null, profiles: [] };
@@ -22,7 +22,6 @@ const authReducer = (state = initialState, action) => {
     }
       case PROFILES_RETRIEVE_SUCCESS: {
           const { profiles } = action;
-          console.log("PROFILES_RETRIEVE_SUCCESS", profiles);
           return { ...state, profiles };
       }
       case PROFILES_RETRIEVE_FAILURE: {
@@ -32,12 +31,19 @@ const authReducer = (state = initialState, action) => {
           const { profile } = action;
           const newState = Object.assign({}, state);
           const { profiles } = newState;
-          profiles.forEach((p)=>{
-            if (p.id === profile.id) {
-              p.name = profile.name;
-              p.age = profile.age;
-            }
-          });
+          return { ...state, profiles };
+      }
+      case PROFILE_CREATE_SUCCESS: {
+          const { profile } = action;
+          const newState = Object.assign({}, state);
+          const { profiles } = newState;
+          // profiles.append(profile);
+          return { ...state, profiles };
+      }
+      case PROFILE_DELETE_SUCCESS: {
+          const { profile } = action;
+          const newState = Object.assign({}, state);
+          let { profiles } = newState;
           return { ...state, profiles };
       }
 

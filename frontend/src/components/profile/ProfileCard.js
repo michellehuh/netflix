@@ -5,14 +5,24 @@ import ProfileForm from './ProfileForm'
 
 class ProfileCard extends React.Component {
 
+    constructor() {
+        super();
+        this._onClick = this._onClick.bind(this);
+    }
+
+    _onClick = () => {
+        this.props.onClick(this.props.profile);
+    };
+
     render() {
-        const {isProfileEditMode, onDelete, profile, image} = this.props;
+        const {isProfileEditMode, onDelete, profile, image } = this.props;
         return (
-            <Card className={'profile-card'}>
+            <Card className={'profile-card'}
+                  onClick={!isProfileEditMode? this._onClick:null} >
                 <Image src={ image } />
                 {isProfileEditMode?
                     (<Card.Content>
-                        <ProfileForm profile={profile} inverted={false} onDelete={onDelete}/>
+                        <ProfileForm profile={profile} inverted={false} onDelete={onDelete} adminId = {profile.adminId}/>
                     </Card.Content>)
                     :
                     (<Card.Content>
@@ -30,7 +40,8 @@ ProfileCard.propTypes = {
     profile: PropTypes.object.isRequired,
     image: PropTypes.string.isRequired,
     isProfileEditMode: PropTypes.bool.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired
 };
 
 export default ProfileCard;

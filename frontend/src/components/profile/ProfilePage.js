@@ -2,32 +2,36 @@ import './Profile.css';
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getProfiles } from "../../actions/profile";
-import { Image, Card, Divider, Button, Icon, Message, Segment, Accordion, Form } from 'semantic-ui-react';
+import { getProfiles, setProfile } from "../../actions/profile";
+import { Dimmer, Loader, Card, Divider, Button, Icon, Segment, Accordion } from 'semantic-ui-react';
 import ProfileForm from "./ProfileForm";
 import ProfileCard from "./ProfileCard";
 
 class ProfilePage extends React.Component {
 
-    state = {
-        activeIndex: 1,
-        isProfileEditMode: false,
-        profiles: []
-    }
-
     constructor() {
         super();
         this.submit = this.submit.bind(this);
+        this.loadProfiles = this.loadProfiles.bind(this);
+        this.handleProfileChange = this.handleProfileChange.bind(this);
     }
 
-    loadProfiles = () => this.props.getProfiles(this.props.user)
+    state = {
+        activeIndex: 1,
+        isProfileEditMode: false,
+        profiles: [],
+        isLoading: false
+    };
 
     componentWillMount = () => this.props.getProfiles(this.props.user)
 
+    loadProfiles = () => this.props.getProfiles(this.props.user)
+        .then(()=>this.setState({isLoading: false}));
+
     submit = data => {
-        // TODO: select profile
-        console.log(data);
-    }
+        this.props.setProfile(data);
+        this.props.history.push("/dashboard");
+    };
 
     createProfiles = (profiles) => {
         const imglist = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
@@ -39,11 +43,12 @@ class ProfilePage extends React.Component {
                         <ProfileCard image = { 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}
                                      profile = {profile}
                                      isProfileEditMode = {isProfileEditMode}
-                                     onDelete = {this.loadProfiles.bind(this) }
+                                     onDelete = {this.handleProfileChange}
+                                     onClick = {this.submit}
                         />
                     )}.bind(this))}
             </Card.Group>)
-    }
+    };
 
     handleAccordionClick = (e, titleProps) => {
         const { index } = titleProps
@@ -53,16 +58,23 @@ class ProfilePage extends React.Component {
         if (newIndex) this.setState({isProfileEditMode: false});
     }
 
+    handleProfileChange = () => {
+        this.setState({isLoading: true});
+        this.loadProfiles();
+    }
+
     handleManageProfiles = () => {
+        this.setState({isLoading: true});
         this.setState({isProfileEditMode: !this.state.isProfileEditMode});
         this.loadProfiles();
     }
 
     render() {
-        const { activeIndex, isProfileEditMode } = this.state;
-        const { profiles } = this.props;
+        const { activeIndex, isProfileEditMode, isLoading } = this.state;
+        const { profiles, user } = this.props;
         return (
             <div className="ProfilePage">
+                {isLoading && (<Dimmer active> <Loader /> </Dimmer>)}
                 <Divider horizontal inverted>Profiles</Divider>
                 { (profiles && profiles.length)? this.createProfiles(profiles) : (
                     <div>
@@ -87,7 +99,7 @@ class ProfilePage extends React.Component {
                         <Divider horizontal section inverted>
                             Create Profile
                         </Divider>
-                        <ProfileForm/>
+                        <ProfileForm adminId={user} onCreate={this.handleProfileChange}/>
                     </Accordion.Content>
                 </Accordion>
             </div>
@@ -105,10 +117,11 @@ ProfilePage.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    getProfiles: PropTypes.func.isRequired
+    getProfiles: PropTypes.func.isRequired,
+    setProfile: PropTypes.func.isRequired
 };
 
 export default connect(
     mapStateToProps,
-    { getProfiles }
+    { getProfiles, setProfile }
 )(ProfilePage);

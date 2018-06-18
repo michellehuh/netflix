@@ -1,65 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { connect } from "react-redux";
-import { Message, Form, Button } from 'semantic-ui-react'
+import { Form, Button, Loader } from 'semantic-ui-react'
 import { updateProfile, createProfile, deleteProfile } from "../../actions/profile";
 
 class ProfileForm extends React.Component {
 
-    state = {
-        name: "",
-        age: null
-    }
-
-    constructor(prop) {
+    constructor(props) {
         super();
-        this.state = prop.profile || {
-            name: "",
-            age: null
-        };
-
-        console.log(prop.profile);
+        const { profile } = props;
+        this.state = profile?Object.assign({}, profile) : { name: "", age: null };
+        this.state.isLoading = false;
 
         this.handleCreate = this.handleCreate.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
     }
 
-    onSubmit = data => {
-        console.log(data);
-    }
+    componentWillReceiveProps = nextProps => {
+        const { profile } = nextProps;
+        this.setState(Object.assign({}, profile));
+    };
 
-    onChangeText = e =>
-        this.setState({[e.target.name]: e.target.value });
+    onChangeText = e => this.setState({[e.target.name]: e.target.value });
 
     handleCreate = () => {
-        console.log('handleDelete called')
-    }
+        let value = Object.assign({}, this.state);
+        value.adminId = this.props.adminId;
+        this.props.createProfile(value)
+            .then(this.props.onCreate)
+            .then(()=> { this.setState({name: "", age: null}) })
+            .catch((e)=>alert(e.message));
+    };
+
     handleDelete = () => {
-        console.log('handleDelete called')
-        this.props.onDelete();
-    }
+        this.props.deleteProfile(this.state).then(this.props.onDelete);
+    };
+
     handleUpdate = () => {
-        console.log('handleUpdate called', updateProfile)
-        this.props.updateProfile(this.state);
-    }
+        this.setState({isLoading: true});
+        this.props.updateProfile(this.state)
+            .then(()=>this.setState({isLoading: false}))
+            .catch((e)=>{
+                alert(e.message);
+                this.setState({isLoading: false});
+            });
+    };
 
     render() {
-
-        const { name, age, id } = this.state;
-        const { inverted } = this.props;
+        const { name, age, id, isLoading, error } = this.state;
+        const { inverted, profile } = this.props;
 
         return (
             <div className={'ProfileForm'}>
-                <Form inverted={inverted}>
-                    <Form.Field >
+                {isLoading && <Loader active/>}
+                <Form inverted={inverted} >
+                    <Form.Field>
                         <label htmlFor="name">Name</label>
                         <input
                             type="text"
                             id="name"
                             name="name"
                             placeholder="Jane"
-                            value={ name || ""}
+                            value={ name || "" }
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
@@ -70,11 +73,10 @@ class ProfileForm extends React.Component {
                             id="age"
                             name="age"
                             placeholder="age"
-                            value={age || ""}
+                            value={ age || ""}
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
-
                     { (id || id === 0)?
                         (<Button.Group>
                                 <Button color="green" icon='save' onClick={this.handleUpdate}/>
@@ -90,16 +92,18 @@ class ProfileForm extends React.Component {
             </div>
         )
     }
-};
+}
 
 ProfileForm.propTypes = {
+    adminId: PropTypes.string.isRequired,
     profile: PropTypes.object,
     inverted: PropTypes.bool,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    onCreate: PropTypes.func,
 };
 
 ProfileForm.defaultProps = {
     inverted: true
 };
 
-export default connect(null, {updateProfile})(ProfileForm);
+export default connect( null, { updateProfile, createProfile, deleteProfile })(ProfileForm);

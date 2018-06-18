@@ -10,11 +10,10 @@ import { PROFILE_SELECTED,
 
 } from "../types";
 
-export const profileSelected = profile => ({
+export const setProfile = profile => ({
     type: PROFILE_SELECTED,
     profile
 });
-
 
 export const profilesRetrieveSucess = profiles => ({
     type: PROFILES_RETRIEVE_SUCCESS,
@@ -71,7 +70,6 @@ export const getProfiles = credentials => dispatch =>
         .then(resObj => dispatch(profilesRetrieveSucess(resObj.data)))
         .catch(res => dispatch(profilesRetrieveFailure(res.error)));
 
-
 export const updateProfile = profile => dispatch =>
     fetch("http://localhost:8080/admin/profile/update", {
         method: "POST",
@@ -80,26 +78,35 @@ export const updateProfile = profile => dispatch =>
             "Content-Type": "application/json"
         }
     })
-        .then(res => res.json())
-        .then(resObj => dispatch(profileUpdateSuccess(resObj.data)))
-        .catch(res => dispatch(profileUpdateFailure(res.error)));
+        .then(res => {
+            if (res.status !== 200)
+                return Promise.reject({
+                    message: "Invalid Input"
+                });
+            dispatch(profileUpdateSuccess(res.data))
+        });
 
 export const createProfile = profile => dispatch =>
     fetch("http://localhost:8080/admin/profile/create", {
         method: "POST",
-        body: JSON.stringify({id: profile}),
+        body: JSON.stringify(profile),
         headers: {
             "Content-Type": "application/json"
         }
     })
-        .then(res => res.json())
-        .then(resObj => dispatch(profileCreateSuccess(resObj.data)))
-        .catch(res => dispatch(profileCreateFailure(res.error)));
+        .then(res => {
+            if (res.status !== 200) {
+                return Promise.reject({
+                    message: "Invalid Input"
+                });
+            }
+            dispatch(profileCreateSuccess(res.data))
+        });
 
 export const deleteProfile = profile => dispatch =>
-    fetch("http://localhost:8080/admin/profile/create", {
-        method: "DELETE",
-        body: JSON.stringify({id: profile}),
+    fetch("http://localhost:8080/admin/profile/delete", {
+        method: "POST",
+        body: JSON.stringify(profile),
         headers: {
             "Content-Type": "application/json"
         }
