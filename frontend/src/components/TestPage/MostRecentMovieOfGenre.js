@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Segment, Form, Button, Loader, Divider, Table, Image } from "semantic-ui-react";
+import { Segment, Form, Button, Loader, Divider, Table, Image, Header } from "semantic-ui-react";
 import { getMostRecentMovieOfGenre } from "../../actions/test"
+import "./MostRecentMovieOfGenre.css";
 
 class MostRecentMovieOfGenre extends React.Component {
 
@@ -15,10 +16,17 @@ class MostRecentMovieOfGenre extends React.Component {
     state = {
         numOfMovies: 5,
         genre: 'comedy',
-        pastNoYears: 3
+        pastNoYears: 3,
+        isLoading: false
     };
 
-    onSubmit = () => this.props.getMostRecentMovieOfGenre(this.state);
+    onSubmit = () => {
+        this.setState({isLoading: true});
+        this.props.getMostRecentMovieOfGenre(this.state).then(()=> {
+            this.setState({isLoading: false});
+        })
+    }
+
     createTable = result => {
         const keys = Object.keys(result[0]);
         return (
@@ -49,15 +57,20 @@ class MostRecentMovieOfGenre extends React.Component {
     onChangeText = e => this.setState({ ...this.state.loginData, [e.target.name]: e.target.value });
 
     render() {
-        const {isLoading, result} = this.props;
-        const {numOfMovies, genre, pastNoYears} = this.state;
+        const {result} = this.props;
+        const {isLoading, numOfMovies, genre, pastNoYears} = this.state;
         return (
             <div>
-            <Segment inverted>
                 {isLoading && <Loader active/>}
+            <Segment inverted className="MostRecentMovieOfGenreContainer">
+                    <Header as='h3' inverted color='red'>
+                        Movie Watch Stat
+                        <Header.Subheader>List of movies all members have watched.</Header.Subheader>
+                    </Header>
+                <Divider/>
                 <Form submit={this.onSubmit}>
                     <Form.Group inline>
-                        <Form.Field>
+                        <Form.Field>Top&nbsp;
                             <input placeholder='number of movies'
                                    value={numOfMovies}
                                    name='numOfMovies'
@@ -80,7 +93,7 @@ class MostRecentMovieOfGenre extends React.Component {
                                    required
                             /> years.
                         </Form.Field>
-                        <Button color={'red'} onClick={this.onSubmit}> Execute </Button>
+                        <Button class="execute-button" color={'red'} onClick={this.onSubmit}> Execute </Button>
                     </Form.Group>
                 </Form>
             </Segment>
@@ -91,12 +104,10 @@ class MostRecentMovieOfGenre extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    isLoading: state.test.isLoading,
     result: state.test.result
 });
 
 MostRecentMovieOfGenre.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
     result: PropTypes.object,
     getMostRecentMovieOfGenre: PropTypes.func.isRequired
 };
