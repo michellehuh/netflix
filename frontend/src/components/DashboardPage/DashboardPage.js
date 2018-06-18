@@ -14,8 +14,7 @@ class DashboardPage extends Component {
     const { activeTab } = this.state;
     return (
       <div>
-        <Menu text>
-          <Menu.Item header>Netflix</Menu.Item>
+        <Menu text inverted>
           <Menu.Item
             name="movies"
             active={activeTab === "movies"}

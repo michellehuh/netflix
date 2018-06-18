@@ -1,22 +1,22 @@
 package com.cs304.netflix.controller;
 
 import com.cs304.netflix.mapper.MovieMapper;
-import com.cs304.netflix.model.Genre;
+import com.cs304.netflix.model.GetMostRecentMovieOfGenre;
 import com.cs304.netflix.model.Movie;
+import com.cs304.netflix.model.Response;
+import com.cs304.netflix.util.Parser;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.math.BigDecimal;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge=3600)
 @RestController
 @MapperScan("com.cs304.netflix.mapper")
 public class MovieController {
@@ -63,6 +63,14 @@ public class MovieController {
         List<Movie> result = mapper.getMaxAverageTimeIn();
         return new ResponseEntity<List<Movie>>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/movie/MostRecentMovieOfGenre")
+    public ResponseEntity<Response> getMostRecentMovieOfGenre(
+            @RequestBody GetMostRecentMovieOfGenre query
+            ) {
+        logger.info("READ     :" + Parser.parse(query));
+        List<Movie> result = mapper.getRecentMoviesOfGenre(query);
+        logger.info("RESULT    :" + Parser.parse(result));
+        return new ResponseEntity<Response>(new Response(result), HttpStatus.OK);
+    }
 }
-
-

@@ -1,0 +1,7 @@
+.MostRecentMovieOfGenreContainer .execute-button {
+    float: right !important;
+}
+
+.MostRecentMovieOfGenreContainer {
+    margin-top: 20px !important;
+}

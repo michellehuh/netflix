@@ -1,14 +1,12 @@
 package com.cs304.netflix.mapper;
 
-import com.cs304.netflix.model.Genre;
+import com.cs304.netflix.model.GetMostRecentMovieOfGenre;
 import com.cs304.netflix.model.Movie;
-import com.cs304.netflix.model.Profile;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import com.sun.tools.javac.comp.Todo;
-import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MovieMapper {
@@ -18,6 +16,23 @@ public interface MovieMapper {
             "WHERE M.id = G.movieId AND M.releaseYear >= (SELECT TO_CHAR(SYSDATE, 'YYYY') FROM DUAL) - #{pastNoYears}\n" +
             "ORDER BY G.genre, M.releaseYear DESC\n"})
     List<Movie> getNewMovies(Integer pastNoYears);
+
+    @Select({"SELECT * \n" +
+            "   FROM (SELECT  M.*, cnt as watches, G.genre\n" +
+            "           FROM Movie M\n" +
+            "              , MovieIsOfGenre G\n" +
+            "              , (SELECT movieId, count(movieID) as cnt\n" +
+            "                   FROM Watches\n" +
+            "               GROUP BY movieId) W\n" +
+            "          WHERE G.genre LIKE CONCAT(CONCAT('%',UPPER( #{genre} )), '%')\n"+
+            "            AND M.id    = G.movieId \n" +
+            "            AND M.releaseYear >= (SELECT TO_CHAR(SYSDATE, 'YYYY') FROM DUAL) - #{pastNoYears}\n" +
+            "            AND W.movieId = M.id\n" +
+            "       ORDER BY W.cnt DESC\n" +
+            "              , M.releaseYear DESC \n" +
+            "       )\n" +
+            "   WHERE ROWNUM <= #{numOfMovies} \n"})
+    List<Movie> getRecentMoviesOfGenre(GetMostRecentMovieOfGenre query);
 
     @Select("SELECT  G.genre, M.*\n" +
             "FROM MOVIE M, MovieIsOfGenre G\n" +

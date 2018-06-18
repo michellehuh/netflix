@@ -7,30 +7,29 @@ class ProfileCard extends React.Component {
 
     constructor() {
         super();
-        this._onClick = this._onClick.bind(this);
+        this.handleProfileSelect = this.handleProfileSelect.bind(this);
     }
 
-    _onClick = () => {
-        this.props.onClick(this.props.profile);
-    };
+    handleProfileSelect = () => this.props.onClick(this.props.profile);
 
     render() {
-        const {isProfileEditMode, onDelete, profile, image } = this.props;
+        const {isProfileEditMode, onDelete, profile, image} = this.props;
         return (
             <Card className={'profile-card'}
-                  onClick={!isProfileEditMode? this._onClick:null} >
+                  onClick={!isProfileEditMode? this.handleProfileSelect:null} >
                 <Image src={ image } />
-                {isProfileEditMode?
-                    (<Card.Content>
-                        <ProfileForm profile={profile} inverted={false} onDelete={onDelete} adminId = {profile.adminId}/>
-                    </Card.Content>)
-                    :
-                    (<Card.Content>
+                {isProfileEditMode? (
+                    <Card.Content>
+                        <ProfileForm profile={profile}
+                                     inverted={false}
+                                     onDelete={onDelete}
+                                     adminId = {profile.adminId}/>
+                    </Card.Content>
+                    ) : (
+                    <Card.Content>
                         <Card.Header>{profile.name}</Card.Header>
                         <Card.Description>{profile.age}</Card.Description>
-                    </Card.Content>
-                    )
-                }
+                    </Card.Content>)}
             </Card>
         )
     }

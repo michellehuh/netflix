@@ -70,3 +70,48 @@ export const getProfileFavoriteMovies = data =>
       });
     return res.json();
   });
+
+export const getMyHistoryMovies = data =>
+  fetch("http://localhost:8080/profile/movies/myMovies", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    if (res.status !== 200)
+      return Promise.reject({
+        message: "It's not you, it's us! Refresh within a few seconds."
+      });
+    return res.json();
+  });
+
+export const addMovie = data =>
+  fetch("http://localhost:8080/profile/movies/addMovie", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    if (res.status !== 200)
+      return Promise.reject({
+        message: "It's not you, it's us! Refresh within a few seconds."
+      });
+    return res.json();
+  });
+
+export const deleteMovie = data =>
+  fetch("http://localhost:8080/profile/movies/deleteMovie", {
+    method: "DELETE",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    if (res.status !== 200)
+      return Promise.reject({
+        message: "It's not you, it's us! Refresh within a few seconds."
+      });
+    return res.json();
+  });

@@ -1,30 +1,41 @@
 package com.cs304.netflix.mapper;
 
-import com.cs304.netflix.model.*;
+import com.cs304.netflix.model.Admin;
+import com.cs304.netflix.model.PaymentInfo;
+import com.cs304.netflix.model.ProfileAndWatchTime;
 import org.apache.ibatis.annotations.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-
-    @Select("SELECT * FROM Admin")
+    @Select("SELECT * \n" +
+            "  FROM Admin")
     List<Admin> getAll();
 
-    @Select("SELECT * FROM Admin WHERE id = #{id}")
+    @Select("SELECT * \n" +
+            "  FROM Admin \n" +
+            " WHERE id = #{id}")
     Admin getById(int id);
 
-    @Insert("INSERT INTO Admin (id, email, password) values (#{id}, #{email}, #{password})")
+    @Insert("INSERT INTO Admin (id, email, password) \n" +
+            "VALUES (#{id}, #{email}, #{password})")
     boolean add(Admin admin);
 
     @Delete("DELETE FROM Admin WHERE id=#{id}")
-    boolean delete(String id);
+    boolean delete(int id);
 
-    @Update("UPDATE Admin SET email=#{email}, password=#{password}, planId=#{planId} paymentId=#{paymentId} WHERE id=#{id}")
+    @Update("UPDATE Admin SET email     = #{email}\n" +
+            "               , password  = #{password}\n" +
+            "               , planId    = #{planId}\n" +
+            "               , paymentId = #{paymentId} \n" +
+            "WHERE id=#{id}")
     void update(Admin admin);
 
-    @Select("SELECT * FROM Admin WHERE email=#{email} and password=#{password}")
+    @Select("SELECT * \n" +
+            "  FROM Admin \n" +
+            " WHERE email=#{email} \n" +
+            "   AND password=#{password}")
     Admin login(Admin admin);
 
     @Select("SELECT count(*) FROM Admin WHERE email=#{email}")
@@ -33,41 +44,15 @@ public interface AdminMapper {
     @Update("UPDATE Admin SET planId=#{planId} WHERE id=#{id}")
     void updatePlan(Admin admin);
 
-    @Select("SELECT * FROM PaymentInfo, Admin WHERE Admin.id=#{id} AND PaymentInfo.id=paymentId")
-    PaymentInfo getPayment(String id);
+    @Update("UPDATE Admin SET paymentId=#{id} WHERE id=#{adminId}")
+    void updatePaymentInfo(PaymentInfo paymentInfo);
 
-    @Insert("INSERT INTO Profile(adminId, name, age, id) values (#{adminId}, #{name}" +
-            "#{age}, #{id}")
-    boolean addProfile(Profile profile);
-
-    @Select("SELECT DISTINCT Profile.name, Profile.age, Profile.id FROM Profile, Admin WHERE adminId=#{id}")
-    List<Profile> getProfiles(String id);
-
-    @Select("SELECT * FROM Profile WHERE adminId=#{adminId} AND id=#{id}")
-    Profile getProfile(Profile profile);
-
-    @Update("UPDATE Profile SET name=#{name}, age=#{age} WHERE adminId=#{adminId} AND id=#{id}")
-    void updateProfile(Profile profile);
-
-    @Delete("DELETE FROM Profile WHERE adminId=#{adminId} AND id=#{id}")
-    boolean deleteprofile(String adminId, BigDecimal id);
-
-    @Select("SELECT DISTINCT M.title\n" +
-            "FROM Movie M\n" +
-            "WHERE NOT EXISTS\n" +
-            "    ((SELECT P.id\n" +
-            "        FROM Profile P\n" +
-            "        WHERE P.adminId = #{adminId})\n" +
-            "    MINUS\n" +
-            "    (SELECT W.profileId\n" +
-            "        FROM Watches W\n" +
-            "        WHERE W.movieId = M.id))\n")
-    List<Movie> movieDivision(String adminId);
-
-    @Select("SELECT P.name, SUM(W.timeIn) AS watchTime\n" +
-            "FROM Watches W, Profile P\n" +
-            "WHERE W.adminId =#{adminId} AND P.adminId = W.adminId AND P.id = W.profileId\n" +
-            "GROUP BY P.name\n" +
-            "ORDER BY watchTime DESC\n")
-    List<ProfileAndWatchTime> watchTime(String adminId);
+    @Insert("INSERT INTO PaymentInfo (id, cardName, cardNo, expMonth, expYear, billingAddress) \n" +
+            "VALUES (#{id}\n" +
+            "      , #{cardName}\n" +
+            "      , #{cardNo}\n" +
+            "      , #{expMonth}\n" +
+            "      , #{expYear}\n" +
+            "      , #{billingAddress})")
+    void addPaymentInfo(PaymentInfo paymentInfo);
 }
