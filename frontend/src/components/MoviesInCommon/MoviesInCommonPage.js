@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Segment, Table } from "semantic-ui-react";
+import "./MoviesInCommon.css";
+import { Segment, Table, Header } from "semantic-ui-react";
 import { getMoviesInCommon } from "../../actions/test";
 
 class MoviesInCommonPage extends React.Component {
@@ -9,6 +10,7 @@ class MoviesInCommonPage extends React.Component {
     constructor() {
         super();
         this.createTable = this.createTable.bind(this);
+        // console.log(this.context.router.getCurrentRoutes());
     }
 
     componentWillMount = () => {
@@ -47,14 +49,22 @@ class MoviesInCommonPage extends React.Component {
 
     render () {
         const {result} = this.props;
-        return ((result && result.length)? this.createTable(result) : (<Segment inverted color={'red'} textAlign={'center'}>No data</Segment>));
+        return (
+            (<div>
+                <Segment inverted className='MoviesInCommonContainer'>
+                    <Header as='h3' inverted color='red'>
+                        Movie Watch Stat
+                        <Header.Subheader>List of movies all members have watched.</Header.Subheader>
+                    </Header>
+                </Segment>
+                {(result && result.length)? this.createTable(result) : (<Segment inverted color={'red'} textAlign={'center'}>Go watch more movies!</Segment>)}
+            </div>)
+        );
     }
 }
 const mapStateToProps = state => ({
     isLoggedIn: state.auth.isLoggedIn,
     user: state.auth.user,
-    profiles: state.auth.profiles,
-    profile: state.profile.profile,
     result: state.test.result
 });
 
@@ -62,8 +72,7 @@ MoviesInCommonPage.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    getMoviesInCommon: PropTypes.func.isRequired,
-    setProfile: PropTypes.func.isRequired
+    getMoviesInCommon: PropTypes.func.isRequired
 };
 
 export default connect(

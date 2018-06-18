@@ -21,9 +21,9 @@ export const getMostRecentMovieOfGenre = data => dispatch =>
     }).then(resObj => dispatch(getMostRecentMovieOfGenreSuccess(resObj.data)));
 
 export const getMoviesInCommon = data => dispatch =>
-    fetch("http://localhost:8080/profile/ProfileStatsMax", {
+    fetch("http://localhost:8080/admin/movieStats", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify({id: data}),
         headers: {
             "Content-Type": "application/json"
         }
@@ -33,7 +33,9 @@ export const getMoviesInCommon = data => dispatch =>
                 message: "Invalid"
             });
         return res.json();
-    }).then(resObj => dispatch(getMostRecentMovieOfGenreSuccess(resObj.data)));
+    }).then(resObj =>
+    {   console.log(resObj);
+        dispatch(getMostRecentMovieOfGenreSuccess(resObj.data))});
 
 
 
