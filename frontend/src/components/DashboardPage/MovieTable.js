@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 const MovieTable = props => (
   <div>
-    <h1 style={{ color: "white", fontSize: "1.7em" }}>New Releases</h1>
+    <h1 style={{ color: "white", fontSize: "1.7em", marginTop: 15 }}>
+      New Releases from your age
+    </h1>
     <Table striped inverted>
       <Table.Header>
         <Table.Row>

@@ -5,7 +5,7 @@ import "../css/TopMovieList.css";
 
 const TopMovieList = props => (
   <div>
-    <h1 className="topMovieListHeader">Popular from your age</h1>
+    <h1 className="topMovieListHeader">Top 3 from your age</h1>
     <div className="topMovieListContainer">
       <Card.Group>{props.populateTopMovieCards()}</Card.Group>
     </div>

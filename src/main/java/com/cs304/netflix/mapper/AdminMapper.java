@@ -2,6 +2,7 @@ package com.cs304.netflix.mapper;
 
 import com.cs304.netflix.model.Admin;
 import com.cs304.netflix.model.PaymentInfo;
+import com.cs304.netflix.model.ProfileAndWatchTime;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
