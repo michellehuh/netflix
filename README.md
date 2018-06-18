@@ -10,9 +10,9 @@ It's not possible to directly connect to the dbhost.ugrad.cs.ubc.ca so you'd hav
 
 At terminal
 ```
-cd ~/instantclient_12_2/network/admin/
-sudo touch tnsnames.ora
-sudo vim tnsnames.ora
+$cd ~/instantclient_12_2/network/admin/
+$sudo touch tnsnames.ora
+$sudo vim tnsnames.ora
 ```
 oraname.tns
 ```
@@ -27,15 +27,15 @@ ssh =
 ```
 Create a tunnel 
 ```
-ssh -Y {cs_id}@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
+$ssh -Y {cs_id}@remote.ugrad.cs.ubc.ca -L1522:dbhost.ugrad.cs.ubc.ca:1522
 ```
 Use sqlplus with oraname.tns
 ```
-sqlplus ora_{cs_id}/a{student_number}@ssh
+$sqlplus ora_{cs_id}/a{student_number}@ssh
 ```
 Usle sqlplus without oraname.tns
 ```
-sqlplus ora_{cs_id}/a{student_number}@localhost:1522/ug
+$sqlplus ora_{cs_id}/a{student_number}@localhost:1522/ug
 ```
 ### SQL Developer
 [Alternative to sqlplus, SQL developer can be used.](http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index.html, "Sql Developer")
@@ -51,13 +51,25 @@ spring.datasource.username=ora_{cs_id}
 spring.datasource.password=a{student_number}
 ```
 
-## Dependencies
-Build gradle to add dependencies to the classpath
+## Server 
+### Dependencies
+***libs/ojdbc6.jar must be added to the class path.***
+### Port
 ```
-gradle build
+using 8080 by default
 ```
+
+## Front-end
+```
+$cd frontend
+$npm install
+$npm start
+using 3000 by default
+```
+
 ## Environment
   JAVA 1.8, 
   Springboot 2.0.2.RELEASE, 
   Mybatis 1.3.2, 
-  Oracle 11g
+  Oracle 11g, 
+  React
