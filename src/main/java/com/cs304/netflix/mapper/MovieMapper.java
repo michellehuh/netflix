@@ -28,8 +28,8 @@ public interface MovieMapper {
             "            AND M.id    = G.movieId \n" +
             "            AND M.releaseYear >= (SELECT TO_CHAR(SYSDATE, 'YYYY') FROM DUAL) - #{pastNoYears}\n" +
             "            AND W.movieId = M.id\n" +
-            "       ORDER BY M.releaseYear DESC\n" +
-            "              , W.cnt DESC \n" +
+            "       ORDER BY W.cnt DESC\n" +
+            "              , M.releaseYear DESC \n" +
             "       )\n" +
             "   WHERE ROWNUM <= #{numOfMovies} \n"})
     List<Movie> getRecentMoviesOfGenre(GetMostRecentMovieOfGenre query);
