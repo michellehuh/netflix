@@ -1,5 +1,8 @@
+/* eslint no-alert: 0, no-underscore-dangle: 0 */
 import React from "react";
 import { Step, Segment, Icon } from "semantic-ui-react";
+import PropTypes from "prop-types";
+import * as api from "../../../api";
 import SignUpForm from "./SignUpForm";
 import PlanChooser from "./PlanChooser";
 import PaymentInfoForm from "./PaymentInfoForm";
@@ -10,13 +13,15 @@ class SignUpStepper extends React.Component {
     this.state = {
       curStep: 1,
       planValue: 0,
+      planId: 0,
+      adminId: "",
       signUpData: {
         email: "",
         password: ""
       },
       paymentInfo: {
         cardName: "",
-        cardNumber: "",
+        cardNo: "",
         expYear: "",
         expMonth: "",
         billingAddress: "",
@@ -26,9 +31,11 @@ class SignUpStepper extends React.Component {
       }
     };
 
+    this.handleCreateAccount = this.handleCreateAccount.bind(this);
     this.handlePlanValueChange = this.handlePlanValueChange.bind(this);
-    this.handleOnClickNextButton = this.handleOnClickNextButton.bind(this);
-    this.handleOnClickPrevButton = this.handleOnClickPrevButton.bind(this);
+    this.handlePaymentInfoSubmitted = this.handlePaymentInfoSubmitted.bind(
+      this
+    );
     this.onChangeSignUpText = this.onChangeSignUpText.bind(this);
     this.onChangePaymentInfoText = this.onChangePaymentInfoText.bind(this);
   }
@@ -47,27 +54,72 @@ class SignUpStepper extends React.Component {
     });
   };
 
-  handlePlanValueChange = val => {
+  handleCreateAccount = () => {
+    api
+      .createAccount(this.state.signUpData)
+      .then(res => {
+        this.setState(prevState => ({
+          curStep: prevState.curStep + 1,
+          adminId: res.data
+        }));
+      })
+      .catch(e => {
+        alert(e.message);
+      });
+  };
+
+  handlePlanChosen = () => {
+    const { adminId, planId } = this.state;
+    api
+      .planChosen({ id: adminId, planId })
+      .then(() => {
+        this.setState(prevState => ({ curStep: prevState.curStep + 1 }));
+      })
+      .catch(e => {
+        alert(e.message);
+      });
+  };
+
+  handlePaymentInfoSubmitted = () => {
+    const { adminId, paymentInfo } = this.state;
+    const paymentInfoData = this._configurePaymentInfoData(
+      paymentInfo,
+      adminId
+    );
+    api
+      .paymentInfoSubmitted(paymentInfoData)
+      .then(() => this.props.onComplete(0,0))
+      .catch(e => {
+        alert(e.message);
+      });
+  };
+
+  handlePlanValueChange = (id, val) => {
     this.setState({
+      planId: id,
       planValue: val
     });
   };
 
-  handleOnClickNextButton = () => {
-    this.setState(prevState => ({ curStep: prevState.curStep + 1 }));
-  };
-
-  handleOnClickPrevButton = () => {
-    this.setState(prevState => ({ curStep: prevState.curStep - 1 }));
+  _configurePaymentInfoData = (paymentInfo, adminId) => {
+    const newPaymentInfo = paymentInfo;
+    const { billingAddress, city, province, country } = newPaymentInfo;
+    newPaymentInfo.adminId = adminId;
+    newPaymentInfo.expYear = parseInt(paymentInfo.expYear, 10);
+    newPaymentInfo.expMonth = parseInt(paymentInfo.expMonth, 10);
+    newPaymentInfo.billingAddress = `${billingAddress}, ${city}, ${province}, ${country}`;
+    delete newPaymentInfo.city;
+    delete newPaymentInfo.province;
+    delete newPaymentInfo.country;
+    return newPaymentInfo;
   };
 
   render() {
-    console.log(this.state);
     const { curStep, signUpData } = this.state;
     return (
-      <div>
-        <Step.Group attached="top">
-          <Step active={curStep === 1}>
+      <div className='SignupStepperContainer'>
+        <Step.Group size={"mini"}>
+          <Step active={curStep === 1} >
             <Icon name="user" />
             <Step.Content>
               <Step.Title>Account</Step.Title>
@@ -92,33 +144,39 @@ class SignUpStepper extends React.Component {
           </Step>
         </Step.Group>
 
-        <Segment padded="very" attached>
+        <Segment padded="very" attached inverted>
           {curStep === 1 && (
             <SignUpForm
               signUpData={signUpData}
               onChangeSignUpText={this.onChangeSignUpText}
-              handleOnClickNextButton={this.handleOnClickNextButton}
-            />
+              handleCreateAccount={this.handleCreateAccount}
+              inverted />
           )}
           {curStep === 2 && (
             <PlanChooser
               planValue={this.state.planValue}
               handlePlanValueChange={this.handlePlanValueChange}
-              handleOnClickNextButton={this.handleOnClickNextButton}
-              handleOnClickPrevButton={this.handleOnClickPrevButton}
-            />
+              handlePlanChosen={this.handlePlanChosen}
+              inverted />
           )}
           {curStep === 3 && (
             <PaymentInfoForm
               paymentInfo={this.state.paymentInfo}
               onChangePaymentInfoText={this.onChangePaymentInfoText}
-              handleOnClickPrevButton={this.handleOnClickPrevButton}
-            />
+              handlePaymentInfoSubmitted={this.handlePaymentInfoSubmitted}
+              inverted />
           )}
         </Segment>
       </div>
     );
   }
 }
+
+SignUpStepper.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+    onComplete: PropTypes.func.isRequired
+};
 
 export default SignUpStepper;

@@ -1,0 +1,13 @@
+.App-logo {
+    max-width: 100px;
+    margin-top: 10px;
+}
+
+.App-logo:hover {
+    cursor: pointer;
+}
+
+.ProfileLabel {
+    float: right;
+    top: 10px;
+}

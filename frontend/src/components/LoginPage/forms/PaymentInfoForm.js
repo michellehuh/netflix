@@ -8,7 +8,7 @@ const cardInfo = [
   {
     key: "cnmbr",
     label: "Card Number",
-    name: "cardNumber",
+    name: "cardNo",
     placeholder: "1234567890123456"
   },
   {
@@ -54,8 +54,8 @@ class PaymentInfoForm extends Component {
   render() {
     const { paymentInfo, onChangePaymentInfoText } = this.props;
     return (
-      <div>
-        <Form>
+      <div className="PaymentFormContainer">
+        <Form inverted>
           <Form.Group widths="equal">
             {this.populateGroupFormInputs(cardInfo)}
           </Form.Group>
@@ -67,14 +67,17 @@ class PaymentInfoForm extends Component {
             value={paymentInfo.billingAddress}
             onChange={onChangePaymentInfoText}
           />
-          <Form.Group widths="equal">
+          <Form.Group widths="equal" inverted>
             {this.populateGroupFormInputs(addressInfo)}
           </Form.Group>
         </Form>
-        <Button.Group color="olive" fluid widths="2">
-          <Button onClick={this.props.handleOnClickPrevButton}>PREV</Button>
-          <Button>Give me an account!</Button>
-        </Button.Group>
+        <Button
+          color="red"
+          fluid
+          onClick={this.props.handlePaymentInfoSubmitted}
+        >
+          ADD PAYMENT INFORMATION
+        </Button>
       </div>
     );
   }
@@ -83,7 +86,7 @@ class PaymentInfoForm extends Component {
 PaymentInfoForm.propTypes = {
   paymentInfo: PropTypes.object.isRequired,
   onChangePaymentInfoText: PropTypes.func.isRequired,
-  handleOnClickPrevButton: PropTypes.func.isRequired
+  handlePaymentInfoSubmitted: PropTypes.func.isRequired
 };
 
 PaymentInfoForm.defaultProps = {

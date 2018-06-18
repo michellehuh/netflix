@@ -44,8 +44,8 @@ class LoginForm extends React.Component {
         {this.props.authError && (
           <Message error header={this.props.authError} />
         )}
-        <Form onSubmit={this.onSubmit}>
-          <Form.Field error={!!errors.email}>
+        <Form onSubmit={this.onSubmit} inverted>
+          <Form.Field error={!!errors.email} >
             <label htmlFor="email">Email</label>
             <input
               type="email"
@@ -69,7 +69,7 @@ class LoginForm extends React.Component {
             />
             {errors.password && <InlineError text={errors.password} />}
           </Form.Field>
-          <Button color="olive" fluid>
+          <Button color="red" fluid>
             Login
           </Button>
         </Form>

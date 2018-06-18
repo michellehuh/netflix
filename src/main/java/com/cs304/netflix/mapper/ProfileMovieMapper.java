@@ -14,7 +14,7 @@ public interface ProfileMovieMapper {
             "FROM MOVIE M, PROFILE P, AGERESTRICTION A, (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
             "                                            FROM WATCHES W3\n" +
             "                                            GROUP BY MOVIEID) COUNTWATCH\n" +
-            "WHERE M.AGERESTRICTION = A.NAME AND P.AGE >= A.MINAGE AND COUNTWATCH.MOVIEID = M.ID AND P.NAME = 'Jimmy' AND P.ADMINID = 23412353 AND\n" +
+            "WHERE M.AGERESTRICTION = A.NAME AND P.AGE >= A.MINAGE AND COUNTWATCH.MOVIEID = M.ID AND P.ID = #{id} AND P.ADMINID = #{adminId} AND\n" +
             "    COUNTWATCH.NUMWATCH = (SELECT MAX(NUMWATCH)\n" +
             "                        \tFROM (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
             "                                   FROM WATCHES W3, MOVIE M3" +
@@ -22,14 +22,15 @@ public interface ProfileMovieMapper {
             "                                    \t, PROFILE P2\n" +
             "                                \tWHERE W3.MOVIEID = M3.ID " +
             "                                  \tAND M3.AGERESTRICTION = A2.NAME\n" +
-            "                                  \tAND A2.MINAGE <= #{age} " +
+            "                                  \tAND A2.MINAGE <= P2.age " +
             "                                  \tAND P2.ADMINID = #{adminId}\n" +
             "                                  \tAND P2.ID = #{id}\n" +
             "GROUP BY MOVIEID))\n")
     List<Movie> getProfileFavoriteMovies(Profile profile);
 
 
-    @Select("SELECT m.*\n" +
+    @Select("SELECT *\n" +
+            "FROM (SELECT m.*\n" +
             "FROM profile p\n" +
             " \t, movie m" +
             " \t, agerestriction a\n" +
@@ -37,6 +38,7 @@ public interface ProfileMovieMapper {
             "  and p.id = #{id}\n" +
             "  and m.agerestriction = a.name\n" +
             "  and p.age >= a.minage\n" +
-            "ORDER BY m.releaseYear DESC")
+            "ORDER BY m.releaseYear DESC)" +
+            "WHERE rownum < 11")
     List<Movie> getProfileAppropriateMovies(Profile profile);
 }

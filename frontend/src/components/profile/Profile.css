@@ -1,0 +1,42 @@
+body {
+    background-color: black;
+}
+
+.ui.card.profile-card {
+
+}
+
+.ui.card.profile-card:hover {
+    cursor: pointer;
+}
+
+.profile-card .edit-button {
+    background-color: transparent !important;
+    float: right;
+}
+
+#logo {
+    margin: 15px;
+    max-width: 100px;
+}
+
+.ProfilePage {
+    margin-top: 20%;
+}
+
+.ProfileForm {
+    max-width: 300px;
+    margin: auto;
+    padding-bottom: 200px;
+}
+
+.ManageProfiles {
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+
+.ui.card.profile-card .ProfileForm{
+    padding-bottom: 0;
+}
