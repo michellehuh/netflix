@@ -1,16 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import { Form, Button, Loader } from 'semantic-ui-react'
 import { updateProfile, createProfile, deleteProfile } from "../../actions/profile";
 
 class ProfileForm extends React.Component {
-  constructor(prop) {
-    super();
-    this.state = prop.profile || {
-      name: "",
-      age: null
-    };
 
     constructor(props) {
         super();
@@ -18,7 +12,10 @@ class ProfileForm extends React.Component {
         this.state = profile?Object.assign({}, profile) : { name: "", age: null };
         this.state.isLoading = false;
 
-  onChangeText = e => this.setState({ [e.target.name]: e.target.value });
+        this.handleCreate = this.handleCreate.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
+    }
 
     componentWillReceiveProps = nextProps => {
         const { profile } = nextProps;
@@ -103,7 +100,7 @@ ProfileForm.propTypes = {
 };
 
 ProfileForm.defaultProps = {
-  inverted: true
+    inverted: true
 };
 
 export default connect(

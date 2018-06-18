@@ -9,15 +9,6 @@ import ProfileCard from "./ProfileCard";
 import { IMGLIST } from "../../types";
 
 class ProfilePage extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      activeIndex: 1,
-      isProfileEditMode: false,
-      profiles: []
-    };
-    this.handleSelectProfile = this.handleSelectProfile.bind(this);
-  }
 
     constructor() {
         super();
@@ -125,26 +116,8 @@ class ProfilePage extends React.Component {
                     </Accordion.Content>
                 </Accordion>
             </div>
-          )}
-        <Accordion inverted>
-          <Accordion.Title
-            active={activeIndex === 0}
-            index={0}
-            onClick={this.handleAccordionClick}
-          >
-            <Icon name="dropdown" />
-            Create Profile
-          </Accordion.Title>
-          <Accordion.Content active={activeIndex === 0}>
-            <Divider horizontal section inverted>
-              Create Profile
-            </Divider>
-            <ProfileForm />
-          </Accordion.Content>
-        </Accordion>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 const mapStateToProps = state => ({
