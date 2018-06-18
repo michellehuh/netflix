@@ -7,13 +7,12 @@ import { Image, Card, Divider, Button, Icon, Message, Segment, Accordion, Form }
 import ProfileForm from "./ProfileForm";
 import ProfileCard from "./ProfileCard";
 
-
 class ProfilePage extends React.Component {
 
     state = {
-        profiles: [],
         activeIndex: 1,
-        isProfileEditMode: false
+        isProfileEditMode: false,
+        profiles: []
     }
 
     constructor() {
@@ -21,20 +20,18 @@ class ProfilePage extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    componentWillMount = () => {
-        console.log(this.props.user);
-        this.props.getProfiles(this.props.user).then(function() {
-            this.setState({profiles: this.props.profiles});
-        }.bind(this));
-    }
+    loadProfiles = () => this.props.getProfiles(this.props.user)
+
+    componentWillMount = () => this.props.getProfiles(this.props.user)
 
     submit = data => {
+        // TODO: select profile
         console.log(data);
     }
 
     createProfiles = (profiles) => {
         const imglist = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
-        const {isProfileEditMode } = this.state;
+        const { isProfileEditMode } = this.state;
         return (
             <Card.Group itemsPerRow={6}>
                 { profiles.map(function (profile) {
@@ -42,6 +39,7 @@ class ProfilePage extends React.Component {
                         <ProfileCard image = { 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}
                                      profile = {profile}
                                      isProfileEditMode = {isProfileEditMode}
+                                     onDelete = {this.loadProfiles.bind(this) }
                         />
                     )}.bind(this))}
             </Card.Group>)
@@ -51,31 +49,35 @@ class ProfilePage extends React.Component {
         const { index } = titleProps
         const { activeIndex } = this.state
         const newIndex = activeIndex === index ? -1 : index
-
         this.setState({ activeIndex: newIndex })
-
-
         if (newIndex) this.setState({isProfileEditMode: false});
     }
 
     handleManageProfiles = () => {
         this.setState({isProfileEditMode: !this.state.isProfileEditMode});
+        this.loadProfiles();
     }
 
     render() {
-        const { profiles, activeIndex, isProfileEditMode } = this.state;
+        const { activeIndex, isProfileEditMode } = this.state;
+        const { profiles } = this.props;
         return (
             <div className="ProfilePage">
                 <Divider horizontal inverted>Profiles</Divider>
                 { (profiles && profiles.length)? this.createProfiles(profiles) : (
                     <div>
-                        <Segment warning color={'red'} inverted tertiary textAlign='center'>
+                        <Segment color={'red'} inverted tertiary textAlign='center'>
                             <Icon name='warning' />
                             You have no profile!
                         </Segment>
                     </div>
                 )}
-
+                {profiles && profiles.length &&
+                (<div className='ManageProfiles'>
+                    <Button basic color='red' onClick={this.handleManageProfiles}>
+                    {(isProfileEditMode? 'Done' : 'Manage Profiles')}
+                    </Button>
+                </div>)}
                 <Accordion inverted>
                     <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick}>
                         <Icon name='dropdown' />
@@ -88,12 +90,6 @@ class ProfilePage extends React.Component {
                         <ProfileForm/>
                     </Accordion.Content>
                 </Accordion>
-                {profiles && profiles.length &&
-                (<div className='ManageProfiles'>
-                    <Button basic color='red' onClick={this.handleManageProfiles}>
-                    {(isProfileEditMode? 'Done' : 'Manage Profiles')}
-                    </Button>
-                </div>)}
             </div>
         );
     }

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import { connect } from "react-redux";
 import { Message, Form, Button } from 'semantic-ui-react'
+import { updateProfile, createProfile, deleteProfile } from "../../actions/profile";
 
 class ProfileForm extends React.Component {
 
@@ -15,6 +17,12 @@ class ProfileForm extends React.Component {
             name: "",
             age: null
         };
+
+        console.log(prop.profile);
+
+        this.handleCreate = this.handleCreate.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
 
     onSubmit = data => {
@@ -24,14 +32,26 @@ class ProfileForm extends React.Component {
     onChangeText = e =>
         this.setState({[e.target.name]: e.target.value });
 
+    handleCreate = () => {
+        console.log('handleDelete called')
+    }
+    handleDelete = () => {
+        console.log('handleDelete called')
+        this.props.onDelete();
+    }
+    handleUpdate = () => {
+        console.log('handleUpdate called', updateProfile)
+        this.props.updateProfile(this.state);
+    }
+
     render() {
 
-        const { name, age } = this.state;
+        const { name, age, id } = this.state;
         const { inverted } = this.props;
 
         return (
             <div className={'ProfileForm'}>
-                <Form onSubmit={this.onSubmit} inverted={inverted}>
+                <Form inverted={inverted}>
                     <Form.Field >
                         <label htmlFor="name">Name</label>
                         <input
@@ -50,13 +70,22 @@ class ProfileForm extends React.Component {
                             id="age"
                             name="age"
                             placeholder="age"
-                            value={age || null}
+                            value={age || ""}
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
-                    <Button color="red" fluid>
-                        Save
-                    </Button>
+
+                    { (id || id === 0)?
+                        (<Button.Group>
+                                <Button color="green" icon='save' onClick={this.handleUpdate}/>
+                                <Button color="red" icon='delete' onClick={this.handleDelete}/>
+                            </Button.Group>
+                        ) : (
+                        <Button color="red" fluid onClick={this.handleCreate}>
+                            Create
+                        </Button>
+                        )
+                    }
                 </Form>
             </div>
         )
@@ -65,11 +94,12 @@ class ProfileForm extends React.Component {
 
 ProfileForm.propTypes = {
     profile: PropTypes.object,
-    inverted: PropTypes.bool
+    inverted: PropTypes.bool,
+    onDelete: PropTypes.func
 };
 
 ProfileForm.defaultProps = {
     inverted: true
 };
 
-export default ProfileForm;
+export default connect(null, {updateProfile})(ProfileForm);
