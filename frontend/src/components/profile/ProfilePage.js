@@ -23,7 +23,14 @@ class ProfilePage extends React.Component {
         isLoading: false
     };
 
-    componentWillMount = () => this.props.getProfiles(this.props.user)
+    componentWillMount = () => {
+        const {isLoggedIn, user, getProfiles, history} = this.props;
+        if (!isLoggedIn) {
+            history.push("/");
+            return;
+        }
+        getProfiles(user);
+    };
 
     loadProfiles = () => this.props.getProfiles(this.props.user)
         .then(()=>this.setState({isLoading: false}));
@@ -108,6 +115,7 @@ class ProfilePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
+    isLoggedIn: state.auth.isLoggedIn,
     user: state.auth.user,
     profiles: state.auth.profiles,
     profile: state.profile.profile
