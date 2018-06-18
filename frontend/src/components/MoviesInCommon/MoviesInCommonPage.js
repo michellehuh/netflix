@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./MoviesInCommon.css";
-import { Segment, Table, Header } from "semantic-ui-react";
-import { getMoviesInCommon } from "../../actions/test";
+import { Segment, Table, Header, Button, Container, Label } from "semantic-ui-react";
+import { getMoviesInCommon, getMoviesInCommonMax, getMoviesInCommonMin } from "../../actions/test";
 
 class MoviesInCommonPage extends React.Component {
 
@@ -12,6 +12,8 @@ class MoviesInCommonPage extends React.Component {
         this.createTable = this.createTable.bind(this);
         // console.log(this.context.router.getCurrentRoutes());
     }
+
+    state = {};
 
     componentWillMount = () => {
         const {isLoggedIn, user, getMoviesInCommon, history} = this.props;
@@ -22,7 +24,7 @@ class MoviesInCommonPage extends React.Component {
         getMoviesInCommon(user);
     };
 
-    createTable = result => {
+    createTable = (result, agg) => {
         const keys = Object.keys(result[0]);
         return (
             <div>
@@ -48,16 +50,27 @@ class MoviesInCommonPage extends React.Component {
     };
 
     render () {
-        const {result} = this.props;
+        const {result, agg, user} = this.props;
         return (
             (<div>
                 <Segment inverted className='MoviesInCommonContainer'>
-                    <Header as='h3' inverted color='red'>
+                    <Header as='h2' inverted color='red'>
                         Movie Watch Stat
                         <Header.Subheader>List of movies all members have watched.</Header.Subheader>
                     </Header>
                 </Segment>
                 {(result && result.length)? this.createTable(result) : (<Segment inverted color={'red'} textAlign={'center'}>Go watch more movies!</Segment>)}
+                <Segment inverted>
+                    <Header as='h3' inverted>
+                    <Button.Group>
+                        <Button onClick={()=>this.props.getMoviesInCommonMax(user)}>Max</Button>
+                        <Button.Or />
+                        <Button positive onClick={()=>this.props.getMoviesInCommonMin(user)}>Min</Button>
+                    </Button.Group>
+                        &nbsp; of Average watch time
+                    </Header>
+                </Segment>
+                {(agg && agg.length)? this.createTable(agg) : (<Segment inverted textAlign={'center'}>Not found</Segment>)}
             </div>)
         );
     }
@@ -65,17 +78,20 @@ class MoviesInCommonPage extends React.Component {
 const mapStateToProps = state => ({
     isLoggedIn: state.auth.isLoggedIn,
     user: state.auth.user,
-    result: state.test.result
+    result: state.test.result,
+    agg: state.test.agg
 });
 
 MoviesInCommonPage.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,
-    getMoviesInCommon: PropTypes.func.isRequired
+    getMoviesInCommon: PropTypes.func.isRequired,
+    getMoviesInCommonMax: PropTypes.func.isRequired,
+    getMoviesInCommonMin: PropTypes.func.isRequired
 };
 
 export default connect(
     mapStateToProps,
-    { getMoviesInCommon }
+    { getMoviesInCommon, getMoviesInCommonMax, getMoviesInCommonMin }
 )(MoviesInCommonPage);

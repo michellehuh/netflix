@@ -30,4 +30,16 @@ public class MovieStatsController {
         return new ResponseEntity<>(new Response(mapper.movieStats(admin)), HttpStatus.OK);
     }
 
+    @PostMapping("/admin/movieStats/max")
+    public ResponseEntity<Response> movieStatsMax(@RequestBody Admin admin){
+        logger.info(Parser.parse(admin));
+        return new ResponseEntity<>(new Response(mapper.movieStatsMax(admin)), HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/movieStats/min")
+    public ResponseEntity<Response> movieStatsMin(@RequestBody Admin admin){
+        logger.info(Parser.parse(admin));
+        return new ResponseEntity<>(new Response(mapper.movieStatsMin(admin)), HttpStatus.OK);
+    }
+
 }

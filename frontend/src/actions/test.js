@@ -1,7 +1,12 @@
-import { MOST_RECENT_MOVIE_OF_GENRE_SUCCESS } from '../types';
+import { MOST_RECENT_MOVIE_OF_GENRE_SUCCESS, NESTED_AGGREGATION_SUCCESS } from '../types';
 
 export const getMostRecentMovieOfGenreSuccess = data => ({
     type: MOST_RECENT_MOVIE_OF_GENRE_SUCCESS,
+    data
+});
+
+export const getNestedAggregationSuccess = data => ({
+    type: NESTED_AGGREGATION_SUCCESS,
     data
 });
 
@@ -39,10 +44,10 @@ export const getMoviesInCommon = data => dispatch =>
 
 
 
-export const getProfileStatsMax = data => dispatch =>
-    fetch("http://localhost:8080/profile/ProfileStatsMax", {
+export const getMoviesInCommonMax = data => dispatch =>
+    fetch("http://localhost:8080/admin/movieStats/max", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify({id: data}),
         headers: {
             "Content-Type": "application/json"
         }
@@ -52,12 +57,14 @@ export const getProfileStatsMax = data => dispatch =>
                 message: "Invalid"
             });
         return res.json();
-    }).then(resObj => dispatch(getMostRecentMovieOfGenreSuccess(resObj.data)));
+    }).then(resObj =>
+    {   console.log(resObj);
+        dispatch(getNestedAggregationSuccess(resObj.data))});
 
-export const getProfileStatsMin = data => dispatch =>
-    fetch("http://localhost:8080/profile/ProfileStatsMin", {
+export const getMoviesInCommonMin = data => dispatch =>
+    fetch("http://localhost:8080//admin/movieStats/min", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify({id: data}),
         headers: {
             "Content-Type": "application/json"
         }
@@ -67,4 +74,6 @@ export const getProfileStatsMin = data => dispatch =>
                 message: "Invalid"
             });
         return res.json();
-    }).then(resObj => dispatch(getMostRecentMovieOfGenreSuccess(resObj.data)));
+    }).then(resObj =>
+    {   console.log(resObj);
+        dispatch(getNestedAggregationSuccess(resObj.data))});

@@ -4,16 +4,15 @@ import java.math.BigDecimal;
 
 public class ProfileAndWatchTime {
     String name;
-    String adminId;
     BigDecimal age;
     BigDecimal watchTime;
     BigDecimal profileId;
 
-    public ProfileAndWatchTime(String name, String adminId, BigDecimal age, BigDecimal watchTime){
+    public ProfileAndWatchTime(BigDecimal profileId, BigDecimal age, String name, BigDecimal watchTime) {
         this.name = name;
-        this.adminId = adminId;
         this.age = age;
         this.watchTime = watchTime;
+        this.profileId = profileId;
     }
 
     public String getName() {
@@ -22,14 +21,6 @@ public class ProfileAndWatchTime {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
     }
 
     public BigDecimal getAge() {
