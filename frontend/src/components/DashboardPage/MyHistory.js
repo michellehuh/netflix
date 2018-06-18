@@ -3,12 +3,6 @@ import { Table, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import * as api from "../../api";
 
-const mockData = {
-  adminId: "78694201",
-  id: 3
-  // adminId: "67453068",
-  // id: 0
-};
 class MyHistory extends Component {
   constructor() {
     super();
@@ -18,7 +12,10 @@ class MyHistory extends Component {
   }
 
   componentWillMount() {
-    api.getMyHistoryMovies(mockData).then(res => {
+    const dataToPass = {};
+    dataToPass.adminId = this.props.profile.adminId;
+    dataToPass.id = this.props.profile.id;
+    api.getMyHistoryMovies(dataToPass).then(res => {
       this.setState({
         myMovies: res.data
       });
@@ -26,7 +23,9 @@ class MyHistory extends Component {
   }
 
   handleDeleteMovie = movieId => {
-    const dataToPass = mockData;
+    const dataToPass = {};
+    dataToPass.adminId = this.props.profile.adminId;
+    dataToPass.id = this.props.profile.id;
     dataToPass.movieId = movieId;
     console.log(dataToPass);
     api.deleteMovie(dataToPass).then(res => {
@@ -91,4 +90,11 @@ class MyHistory extends Component {
   }
 }
 
-export default MyHistory;
+const mapStateToProps = state => ({
+  profile: state.profile.profile
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(MyHistory);

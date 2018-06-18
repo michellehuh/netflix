@@ -6,13 +6,6 @@ import MovieTable from "./MovieTable";
 import "../css/MovieInfo.css";
 import * as api from "../../api";
 
-const mockData = {
-  // adminId: "11113333",
-  // id: 1
-  adminId: "78694201",
-  id: 3
-};
-
 class MovieInfo extends Component {
   constructor() {
     super();
@@ -29,13 +22,16 @@ class MovieInfo extends Component {
   }
 
   componentWillMount() {
-    api.getProfileAppropriateMovies(mockData).then(res => {
+    const dataToPass = {};
+    dataToPass.adminId = this.props.profile.adminId;
+    dataToPass.id = this.props.profile.id;
+    api.getProfileAppropriateMovies(dataToPass).then(res => {
       this.setState({
         movieData: res.data
       });
     });
 
-    api.getProfileFavoriteMovies(mockData).then(res => {
+    api.getProfileFavoriteMovies(dataToPass).then(res => {
       this.setState({
         topMovies: res.data
       });
@@ -43,7 +39,9 @@ class MovieInfo extends Component {
   }
 
   handleAddMovie = movieId => {
-    const dataToPass = mockData;
+    const dataToPass = {};
+    dataToPass.adminId = this.props.profile.adminId;
+    dataToPass.id = this.props.profile.id;
     dataToPass.movieId = movieId;
     console.log(dataToPass);
     api.addMovie(dataToPass).then(res => {
@@ -116,7 +114,7 @@ class MovieInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-  authError: state.auth.authError
+  profile: state.profile.profile
 });
 
 export default connect(
