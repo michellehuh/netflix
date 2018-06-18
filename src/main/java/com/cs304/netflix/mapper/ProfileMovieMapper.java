@@ -11,23 +11,21 @@ import java.util.List;
 @Mapper
 public interface ProfileMovieMapper {
 
-    @Select("SELECT M.*\n" +
-            "FROM MOVIE M, PROFILE P, AGERESTRICTION A, (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
-            "                                            FROM WATCHES W3\n" +
-            "                                            GROUP BY MOVIEID) COUNTWATCH\n" +
-            "WHERE M.AGERESTRICTION = A.NAME AND P.AGE >= A.MINAGE AND COUNTWATCH.MOVIEID = M.ID AND P.ID = #{id} AND P.ADMINID = #{adminId} AND\n" +
-            "    COUNTWATCH.NUMWATCH = (SELECT MAX(NUMWATCH)\n" +
-            "                             FROM (SELECT W3.MOVIEID, COUNT(*) AS NUMWATCH\n" +
-            "                                     FROM WATCHES W3\n" +
-            "                                        , MOVIE M3" +
-            "                                        , AGERESTRICTION A2" +
-            "                                        , PROFILE P2\n" +
-            "                                    WHERE W3.MOVIEID = M3.ID " +
-            "                                      AND M3.AGERESTRICTION = A2.NAME\n" +
-            "                                      AND A2.MINAGE <= P2.age " +
-            "                                      AND P2.ADMINID = #{adminId}\n" +
-            "                                      AND P2.ID = #{id}\n" +
-            "GROUP BY MOVIEID))\n")
+    @Select("SELECT m.* \n" +
+            "from movie m,\n" +
+            "(SELECT M.id, m.title, m.duration, m.agerestriction, m.releaseyear, m.thumbnail, count(*) as watchcount\n" +
+            "from movie m, watches w\n" +
+            "where w.movieid = m.id\n" +
+            "group by M.id, m.title, m.duration, m.agerestriction, m.releaseyear, m.thumbnail\n" +
+            "order by watchcount desc) watchcount, \n" +
+            "profile p,\n" +
+            "agerestriction a\n" +
+            "where m.id = watchcount.id and \n" +
+            "p.adminId = #{adminId} and \n" +
+            "p.id = #{id} and \n" +
+            "a.name = m.agerestriction and \n" +
+            "p.age >= a.minage and \n" +
+            "rownum <= 3\n")
     List<Movie> getProfileFavoriteMovies(Profile profile);
 
 

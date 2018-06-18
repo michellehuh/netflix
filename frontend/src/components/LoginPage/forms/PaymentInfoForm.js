@@ -67,7 +67,7 @@ class PaymentInfoForm extends Component {
             value={paymentInfo.billingAddress}
             onChange={onChangePaymentInfoText}
           />
-          <Form.Group widths="equal" inverted>
+          <Form.Group widths="equal">
             {this.populateGroupFormInputs(addressInfo)}
           </Form.Group>
         </Form>

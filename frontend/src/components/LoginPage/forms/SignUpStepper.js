@@ -40,10 +40,12 @@ class SignUpStepper extends React.Component {
     this.onChangePaymentInfoText = this.onChangePaymentInfoText.bind(this);
   }
 
-  onChangeSignUpText = e =>
+  onChangeSignUpText = e => {
     this.setState({
       signUpData: { ...this.state.signUpData, [e.target.name]: e.target.value }
     });
+    console.log(this.state);
+  };
 
   onChangePaymentInfoText = e => {
     this.setState({
@@ -82,13 +84,14 @@ class SignUpStepper extends React.Component {
 
   handlePaymentInfoSubmitted = () => {
     const { adminId, paymentInfo } = this.state;
+    const newPaymentInfo = Object.assign({}, paymentInfo);
     const paymentInfoData = this._configurePaymentInfoData(
-      paymentInfo,
+      newPaymentInfo,
       adminId
     );
     api
       .paymentInfoSubmitted(paymentInfoData)
-      .then(() => this.props.onComplete(0,0))
+      .then(() => this.props.onComplete(0, 0))
       .catch(e => {
         alert(e.message);
       });
@@ -117,9 +120,9 @@ class SignUpStepper extends React.Component {
   render() {
     const { curStep, signUpData } = this.state;
     return (
-      <div className='SignupStepperContainer'>
+      <div className="SignupStepperContainer">
         <Step.Group size={"mini"}>
-          <Step active={curStep === 1} >
+          <Step active={curStep === 1}>
             <Icon name="user" />
             <Step.Content>
               <Step.Title>Account</Step.Title>
@@ -150,21 +153,24 @@ class SignUpStepper extends React.Component {
               signUpData={signUpData}
               onChangeSignUpText={this.onChangeSignUpText}
               handleCreateAccount={this.handleCreateAccount}
-              inverted />
+              inverted
+            />
           )}
           {curStep === 2 && (
             <PlanChooser
               planValue={this.state.planValue}
               handlePlanValueChange={this.handlePlanValueChange}
               handlePlanChosen={this.handlePlanChosen}
-              inverted />
+              inverted
+            />
           )}
           {curStep === 3 && (
             <PaymentInfoForm
               paymentInfo={this.state.paymentInfo}
               onChangePaymentInfoText={this.onChangePaymentInfoText}
               handlePaymentInfoSubmitted={this.handlePaymentInfoSubmitted}
-              inverted />
+              inverted
+            />
           )}
         </Segment>
       </div>
@@ -176,7 +182,7 @@ SignUpStepper.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-    onComplete: PropTypes.func.isRequired
+  onComplete: PropTypes.func.isRequired
 };
 
 export default SignUpStepper;
