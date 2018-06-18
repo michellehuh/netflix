@@ -6,6 +6,7 @@ import { getProfiles, setProfile } from "../../actions/profile";
 import { Dimmer, Loader, Card, Divider, Button, Icon, Segment, Accordion } from 'semantic-ui-react';
 import ProfileForm from "./ProfileForm";
 import ProfileCard from "./ProfileCard";
+import { IMGLIST } from "../../types";
 
 class ProfilePage extends React.Component {
 
@@ -41,13 +42,13 @@ class ProfilePage extends React.Component {
     };
 
     createProfiles = (profiles) => {
-        const imglist = ['stevie', 'elliot', 'joe', 'veronika', 'jenny', 'christian', 'ade', 'zoe', 'nan' ];
+
         const { isProfileEditMode } = this.state;
         return (
             <Card.Group itemsPerRow={6}>
                 { profiles.map(function (profile) {
                     return (
-                        <ProfileCard image = { 'https://react.semantic-ui.com/assets/images/avatar/large/' + imglist[profile.id%imglist.length] + '.jpg'}
+                        <ProfileCard image = { 'https://react.semantic-ui.com/assets/images/avatar/large/' + IMGLIST[profile.id%IMGLIST.length] + '.jpg'}
                                      profile = {profile}
                                      isProfileEditMode = {isProfileEditMode}
                                      onDelete = {this.handleProfileChange}
@@ -71,6 +72,7 @@ class ProfilePage extends React.Component {
     }
 
     handleManageProfiles = () => {
+        this.props.setProfile(null);
         this.setState({isLoading: true});
         this.setState({isProfileEditMode: !this.state.isProfileEditMode});
         this.loadProfiles();

@@ -6,3 +6,8 @@
 .App-logo:hover {
     cursor: pointer;
 }
+
+.ProfileLabel {
+    float: right;
+    top: 10px;
+}
