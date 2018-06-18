@@ -5,9 +5,7 @@ const initialState = { profile: null };
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case PROFILE_SELECTED: {
-
             const { profile } = action;
-            console.log(profile);
             return { ...state, profile };
         }
         default:
