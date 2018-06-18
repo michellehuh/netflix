@@ -6,7 +6,7 @@ public class Parser {
 
     public static String parse(Object o) {
         Field fields[] = o.getClass().getDeclaredFields();
-        StringBuilder sb = new StringBuilder(" Object: " + o.getClass().getCanonicalName() + "\t");
+        StringBuilder sb = new StringBuilder(" (" + o.getClass().getCanonicalName() + ")\t");
         for (Field f:fields) {
             f.setAccessible(true);
             try {

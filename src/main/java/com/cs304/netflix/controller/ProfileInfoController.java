@@ -25,7 +25,7 @@ public class ProfileInfoController {
 
     @PostMapping("/admin/profiles")
     public ResponseEntity<Response> getProfiles(@RequestBody Admin admin) {
-        logger.info("READ:\t" + Parser.parse(admin));
+        logger.info("READ:      " + Parser.parse(admin));
         return new ResponseEntity<Response>(new Response(mapper.getProfiles(admin)), HttpStatus.OK);
     }
 
@@ -33,7 +33,7 @@ public class ProfileInfoController {
     @PostMapping("/admin/profile/create")
     public ResponseEntity<Response> create(@RequestBody Profile profile) {
         try {
-            logger.info("CREATE:\t" + Parser.parse(profile));
+            logger.info("CREATE:    " + Parser.parse(profile));
             mapper.createProfile(profile);
             return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ProfileInfoController {
     @PostMapping("/admin/profile/update")
     public ResponseEntity<Response> update(@RequestBody Profile profile) {
         try {
-            logger.info("UPDATE:\t" + Parser.parse(profile));
+            logger.info("UPDATE:    " + Parser.parse(profile));
             mapper.updateProfile(profile);
             return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class ProfileInfoController {
     @PostMapping("/admin/profile/delete")
     public ResponseEntity<Response> delete(@RequestBody Profile profile) {
         try {
-            logger.info("DELETE:\t" + Parser.parse(profile));
+            logger.info("DELETE:    " + Parser.parse(profile));
             mapper.deleteProfile(profile);
             return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
         } catch (Exception e) {
