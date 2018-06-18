@@ -15,7 +15,7 @@ class MostRecentMovieOfGenre extends React.Component {
 
     state = {
         numOfMovies: 5,
-        genre: 'comedy',
+        genre: 'action',
         pastNoYears: 3,
         isLoading: false
     };
@@ -63,9 +63,9 @@ class MostRecentMovieOfGenre extends React.Component {
             <div>
                 {isLoading && <Loader active/>}
             <Segment inverted className="MostRecentMovieOfGenreContainer">
-                    <Header as='h3' inverted color='red'>
+                    <Header as='h2' inverted color='red'>
                         Movie Watch Stat
-                        <Header.Subheader>List of movies all members have watched.</Header.Subheader>
+                        <Header.Subheader>Search most watched movies by genre and release year.</Header.Subheader>
                     </Header>
                 <Divider/>
                 <Form submit={this.onSubmit}>
