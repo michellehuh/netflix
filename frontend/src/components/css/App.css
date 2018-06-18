@@ -7,7 +7,11 @@
     cursor: pointer;
 }
 
-.ProfileLabel {
+.ProfileLabel, .stats-button {
     float: right;
     top: 10px;
+}
+
+.stats-button {
+    margin-top: 10px !important;
 }

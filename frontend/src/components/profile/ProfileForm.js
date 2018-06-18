@@ -33,9 +33,8 @@ class ProfileForm extends React.Component {
             .catch((e)=>alert(e.message));
     };
 
-    handleDelete = () => {
-        this.props.deleteProfile(this.state).then(this.props.onDelete);
-    };
+    handleDelete = () => this.props.deleteProfile(this.state)
+            .then(this.props.onDelete);
 
     handleUpdate = () => {
         this.setState({isLoading: true});
@@ -77,17 +76,15 @@ class ProfileForm extends React.Component {
                             onChange={this.onChangeText}
                         />
                     </Form.Field>
-                    { (id || id === 0)?
-                        (<Button.Group>
+                    {(id || id === 0)? (
+                        <Button.Group>
                                 <Button color="green" icon='save' onClick={this.handleUpdate}/>
                                 <Button color="red" icon='delete' onClick={this.handleDelete}/>
                             </Button.Group>
-                        ) : (
+                        ):(
                         <Button color="red" fluid onClick={this.handleCreate}>
                             Create
-                        </Button>
-                        )
-                    }
+                        </Button>)}
                 </Form>
             </div>
         )
@@ -106,4 +103,7 @@ ProfileForm.defaultProps = {
     inverted: true
 };
 
-export default connect( null, { updateProfile, createProfile, deleteProfile })(ProfileForm);
+export default connect(
+    null,
+    { updateProfile, createProfile, deleteProfile }
+)(ProfileForm);

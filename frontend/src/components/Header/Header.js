@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import { Label } from 'semantic-ui-react';
+import { Label, Button } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
 import logo from "../../assets/image/logo.png"
@@ -17,7 +17,7 @@ const Header = withRouter(({ history, isLoggedIn, profile }) => (
                      history.push('/profile');
                  else history.push('/');
              }}/>
-        {profile && profile.name && (
+        {(profile && profile.name)? (
             <Label className='ProfileLabel'
                     as='a'
                    image
@@ -28,7 +28,13 @@ const Header = withRouter(({ history, isLoggedIn, profile }) => (
                     }}>
             <img src={ 'https://react.semantic-ui.com/assets/images/avatar/small/' + IMGLIST[profile.id%IMGLIST.length] + '.jpg'} />
             {profile.name}
-        </Label>)}
+        </Label>) :
+            (isLoggedIn && !profile && (<Button className={'stats-button'} basic color={'red'}
+                                                onClick={() => {
+                                                    history.push('/moviesInCommon');
+                                                }}>
+                Stats</Button>))
+        }
 
     </header>
 ));
