@@ -47,8 +47,8 @@ public interface ProfileMovieMapper {
     List<Movie> getProfileAppropriateMovies(Profile profile);
 
     @Select("SELECT m.*, w.timeIn\n" +
-            "FROM profile p, watches w, movie m\n" +
-            "WHERE p.adminId = #{adminId} and p.id = #{id} and p.id = w.profileId and w.movieId = m.id")
+            "FROM watches w, movie m\n" +
+            "WHERE w.adminId = #{adminId} and w.profileId = #{id} and w.movieId = m.id")
     List<Movie> getMyHistoryMovies(Profile profile);
 
     @Select("INSERT INTO watches(movieId, adminId, profileId, timeIn) VALUES (#{movieId}, #{adminId}, #{id}, 0)")
