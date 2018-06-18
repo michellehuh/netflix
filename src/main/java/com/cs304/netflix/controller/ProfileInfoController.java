@@ -33,10 +33,9 @@ public class ProfileInfoController {
         // {"name": "testNAME", "age":10, "adminId": "21a97bc7-7338-4bd1-bb8b-6edae247bba0" }
         Profile result;
         try {
-            logger.info("create" + profile.getName());
+            logger.info("create: " + profile.getName() + ", age:" + profile.getAge() + ", adminId:" + profile.getAdminId());
             mapper.createProfile(profile);
-            result = mapper.getLastProfile(profile);
-            return new ResponseEntity<Response>(new Response(result), HttpStatus.OK);
+            return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage());
             return new ResponseEntity<Response>(new Response(e), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -63,7 +62,7 @@ public class ProfileInfoController {
         try {
             logger.info("delete" + profile.getName());
             mapper.deleteProfile(profile);
-            return new ResponseEntity<Response>(new Response(true), HttpStatus.OK);
+            return new ResponseEntity<Response>(new Response(profile), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage());
             return new ResponseEntity<Response>(new Response(e), HttpStatus.INTERNAL_SERVER_ERROR);

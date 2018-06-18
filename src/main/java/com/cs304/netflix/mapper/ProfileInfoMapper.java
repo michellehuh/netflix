@@ -12,7 +12,8 @@ public interface ProfileInfoMapper {
     @Select("SELECT * \n" +
             "  FROM Profile \n" +
             " WHERE adminId = #{adminId}\n" +
-            "   AND id = #{id}")
+            "   AND id = #{id}\n" +
+            "ORDER BY id")
     Profile getProfileByAdminIdAndId(Profile profile);
 
     @Select("SELECT * \n" +
@@ -29,7 +30,7 @@ public interface ProfileInfoMapper {
     boolean updateProfile(Profile profile);
 
     @Insert("INSERT INTO Profile ( id, name, adminId, age )\n" +
-            "VALUES ((nvl(( SELECT max(id) \n" +
+            "VALUES ((nvl(( SELECT max(id)\n" +
             "               FROM Profile \n" +
             "               WHERE adminId = #{adminId}), 0) + 1)\n" +
             "         , #{name}\n" +
@@ -38,7 +39,8 @@ public interface ProfileInfoMapper {
     boolean createProfile(Profile profile);
 
     @Delete("DELETE FROM Profile\n" +
-            " WHERE id = #{id}, adminId = #{adminId}")
+            " WHERE id = #{id}\n" +
+            "   AND adminId = #{adminId}")
     boolean deleteProfile(Profile profile);
 
     @Select("SELECT * \n" +
