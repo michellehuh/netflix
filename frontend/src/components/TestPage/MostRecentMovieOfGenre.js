@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Segment, Form, Button, Loader, Divider, Table } from "semantic-ui-react";
+import { Segment, Form, Button, Loader, Divider, Table, Image } from "semantic-ui-react";
 import { getMostRecentMovieOfGenre } from "../../actions/test"
 
 class MostRecentMovieOfGenre extends React.Component {
@@ -27,6 +27,7 @@ class MostRecentMovieOfGenre extends React.Component {
                     <Table.Header>
                         <Table.Row>
                             {keys.map((attrName) => {
+                                if (attrName === 'timeIn') return;
                                 return (<Table.HeaderCell>{attrName}</Table.HeaderCell>);
                             })}
                         </Table.Row>
@@ -36,7 +37,8 @@ class MostRecentMovieOfGenre extends React.Component {
                             return (
                                 <Table.Row>
                                     {keys.map((attrName)=>{
-                                        return (<Table.Cell> {tuple[attrName]} </Table.Cell>);
+                                        if (attrName === 'timeIn') return;
+                                        return (<Table.Cell> { (attrName === 'thumbnail')?  <Image size='tiny' src={tuple[attrName]} />:tuple[attrName] } </Table.Cell>);
                                     })}
                                 </Table.Row>);})}
                     </Table.Body>
@@ -82,7 +84,7 @@ class MostRecentMovieOfGenre extends React.Component {
                     </Form.Group>
                 </Form>
             </Segment>
-                {(result && result.length)? this.createTable(result) : (<Segment textAlign={'center'}>No data</Segment>)}
+                {(result && result.length)? this.createTable(result) : (<Segment textAlign={'center'} color={'red'} inverted>No data</Segment>)}
             </div>
         )
     }
