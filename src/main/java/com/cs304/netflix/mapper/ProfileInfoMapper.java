@@ -12,22 +12,21 @@ public interface ProfileInfoMapper {
     @Select("SELECT * \n" +
             "  FROM Profile \n" +
             " WHERE adminId = #{adminId}\n" +
-            "   and id = #{id}")
+            "   AND id = #{id}")
     Profile getProfileByAdminIdAndId(Profile profile);
-
 
     @Select("SELECT * \n" +
             "  FROM (SELECT * FROM Profile \n" +
             "         WHERE adminId = #{adminId}\n" +
             "         ORDER BY id DESC)\n" +
-            "  WHERE rownum <= 1")
+            "  WHERE ROWNUM <= 1")
     Profile getLastProfile(Profile profile);
 
     @Update("UPDATE Profile \n" +
-            "   SET age = #{age} \n" +
+            "   SET age = #{age}, name = #{name} \n" +
             " WHERE adminId = #{adminId} \n" +
-            "   AND id = #{id}")
-    Profile updateAge(Profile profile);
+            "   AND id = #{id}\n")
+    boolean updateProfile(Profile profile);
 
     @Insert("INSERT INTO Profile ( id, name, adminId, age )\n" +
             "VALUES ((nvl(( SELECT max(id) \n" +
@@ -37,7 +36,6 @@ public interface ProfileInfoMapper {
             "         , #{adminId}\n" +
             "         , #{age})")
     boolean createProfile(Profile profile);
-
 
     @Delete("DELETE FROM Profile\n" +
             " WHERE id = #{id}, adminId = #{adminId}")
