@@ -1,5 +1,5 @@
 # Netflix
-CS304 project setup guide
+UBC CPSC304 project.
 
 ## Database Setup
 ### Oracle client and sqlplus installation for MAC OS
